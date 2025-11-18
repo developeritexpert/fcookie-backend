@@ -5,7 +5,7 @@ const authorizeRoles = (allowedRoles) => {
     if (allowedRoles.includes(req.user.role)) {
       next();
     } else {
-      return next(new ErrorHandler(401, 'You are not authorized'));
+      return next(new ErrorHandler(401, 'errors.you_are_unauthorized'));
     }
   };
 };

@@ -22,11 +22,14 @@
     "internal_server_error": "Interner Serverfehler",
     "bad_gateway": "Fehlerhaftes Gateway",
     "service_unavailable": "Dienst nicht verfügbar",
-
+    "you_are_unauthorized": "Du bist nicht autorisiert",
+    
     "invalid_credentials": "Ungültige Zugangsdaten",
     "email_not_verified": "E-Mail ist nicht verifiziert",
     "invalid_otp": "Ungültiger OTP",
-    "reset_password_expired": "Link zum Zurücksetzen des Passworts ist abgelaufen"
+    "reset_password_expired": "Link zum Zurücksetzen des Passworts ist abgelaufen",
+    "email_already_registered": "E-Mail ist bereits registriert"
+
   },
 
   "home_page": {
@@ -41,5 +44,6 @@
     "healthy": "System ist funktionsfähig"
   },
 
-  "welcome_all": "Willkommen zur API — alles an einem Ort"
+  "welcome_all": "Willkommen zur API — alles an einem Ort",
+  "success": "Operation erfolgreich"
 }

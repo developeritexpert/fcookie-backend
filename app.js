@@ -15,6 +15,7 @@ const errorHandler = require('./src/utils/error-handler');
 
 const authRoutes = require('./src/routes/auth/auth.routes');
 const profileRouter = require('./src/routes/profile/profile.route');
+const categoryRouter = require('./src/routes/category/category.routes');
 
 const app = express();
 
@@ -58,6 +59,7 @@ app.get('/health', (req, res) => res.status(200).json({ message: req.t("health_p
 
 app.use(`/${config.server.route}/auth`, authRoutes);
 app.use(`/${config.server.route}/profile`, profileRouter);
+app.use(`/${config.server.route}/category`, categoryRouter);
 
 // --------------------------------------------------
 // 404 Handler

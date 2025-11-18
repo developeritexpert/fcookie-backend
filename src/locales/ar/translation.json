@@ -22,11 +22,13 @@
     "internal_server_error": "خطأ داخلي في الخادم",
     "bad_gateway": "بوابة غير صالحة",
     "service_unavailable": "الخدمة غير متاحة",
-
+    "you_are_unauthorized": "أنت غير مصرح",
     "invalid_credentials": "بيانات اعتماد غير صالحة",
     "email_not_verified": "البريد الإلكتروني غير مُحقق",
     "invalid_otp": "رمز OTP غير صالح",
-    "reset_password_expired": "رابط إعادة تعيين كلمة المرور منتهي"
+    "reset_password_expired": "رابط إعادة تعيين كلمة المرور منتهي",
+    "email_already_registered": "البريد الإلكتروني مسجل بالفعل"
+
   },
 
   "home_page": {
@@ -41,5 +43,6 @@
     "healthy": "النظام يعمل بشكل جيد"
   },
 
-  "welcome_all": "مرحبًا بك في API — كل شيء في مكان واحد"
+  "welcome_all": "مرحبًا بك في API — كل شيء في مكان واحد",
+  "success": "تمت العملية بنجاح"
 }

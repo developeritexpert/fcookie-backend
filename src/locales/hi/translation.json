@@ -22,11 +22,14 @@
     "internal_server_error": "आंतरिक सर्वर त्रुटि",
     "bad_gateway": "गलत गेटवे",
     "service_unavailable": "सेवा उपलब्ध नहीं है",
+    "you_are_unauthorized": "आप अनधिकृत हैं",
 
     "invalid_credentials": "अमान्य क्रेडेंशियल",
     "email_not_verified": "ईमेल सत्यापित नहीं है",
     "invalid_otp": "अमान्य OTP",
-    "reset_password_expired": "रीसेट पासवर्ड लिंक समाप्त हो गया है"
+    "reset_password_expired": "रीसेट पासवर्ड लिंक समाप्त हो गया है",
+    "email_already_registered": "यह ईमेल पहले से पंजीकृत है"
+
   },
 
   "home_page": {
@@ -41,5 +44,6 @@
     "healthy": "सिस्टम सही से काम कर रहा है"
   },
 
-  "welcome_all": "API पर स्वागत है — सब कुछ एक ही जगह"
+  "welcome_all": "API पर स्वागत है — सब कुछ एक ही जगह",
+  "success": "ऑपरेशन सफलतापूर्वक पूरा हुआ"
 }

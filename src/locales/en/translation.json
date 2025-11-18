@@ -22,11 +22,14 @@
     "internal_server_error": "Internal server error",
     "bad_gateway": "Bad Gateway",
     "service_unavailable": "Service Unavailable",
+    "you_are_unauthorized": "You are unauthorized",
 
     "invalid_credentials": "Invalid credentials",
     "email_not_verified": "Email is not verified",
     "invalid_otp": "Invalid OTP",
-    "reset_password_expired": "Reset password link expired"
+    "reset_password_expired": "Reset password link expired",
+    "email_already_registered": "Email is already registered"
+
   },
 
   "home_page": {
@@ -41,5 +44,6 @@
     "healthy": "System is healthy"
   },
 
-  "welcome_all": "Welcome to the API — everything in one place"
+  "welcome_all": "Welcome to the API — everything in one place",
+  "success": "Operation completed successfully"
 }

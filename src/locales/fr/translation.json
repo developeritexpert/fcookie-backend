@@ -22,11 +22,14 @@
     "internal_server_error": "Erreur interne du serveur",
     "bad_gateway": "Mauvaise passerelle",
     "service_unavailable": "Service indisponible",
+    "you_are_unauthorized": "Vous n’êtes pas autorisé",
 
     "invalid_credentials": "Identifiants invalides",
     "email_not_verified": "E-mail non vérifié",
     "invalid_otp": "OTP invalide",
-    "reset_password_expired": "Le lien de réinitialisation a expiré"
+    "reset_password_expired": "Le lien de réinitialisation a expiré",
+    "email_already_registered": "L’e-mail est déjà enregistré"
+
   },
 
   "home_page": {
@@ -41,5 +44,6 @@
     "healthy": "Le système est opérationnel"
   },
 
-  "welcome_all": "Bienvenue sur l’API — tout au même endroit"
+  "welcome_all": "Bienvenue sur l’API — tout au même endroit",
+  "success": "Opération effectuée avec succès"
 }

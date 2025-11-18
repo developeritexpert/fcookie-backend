@@ -22,6 +22,7 @@ const listUsers = (filter = {}, opts = {}) => {
 
 const updateUser = (id, data) =>
   User.findByIdAndUpdate(id, data, { new: true }).select('-password').exec();
+
 const deleteUser = (id) => User.findByIdAndDelete(id).exec();
 
 module.exports = { getUserByEmail, getUserByID, listUsers, updateUser, deleteUser };

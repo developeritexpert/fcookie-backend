@@ -18,7 +18,7 @@ const sendResponseOld = (res, payload, message = 'Success', statusCode = 200) =>
 const sendResponse = (
   res,
   data = {},
-  messageKey = "common.success",
+  messageKey = "success",
   statusCode = 200,
   extra = {}
 ) => {

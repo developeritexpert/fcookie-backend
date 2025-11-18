@@ -22,11 +22,14 @@
     "internal_server_error": "Error interno del servidor",
     "bad_gateway": "Puerta de enlace incorrecta",
     "service_unavailable": "Servicio no disponible",
+    "you_are_unauthorized": "No estás autorizado",
 
     "invalid_credentials": "Credenciales inválidas",
     "email_not_verified": "El correo no está verificado",
     "invalid_otp": "OTP inválido",
-    "reset_password_expired": "El enlace de restablecimiento ha expirado"
+    "reset_password_expired": "El enlace de restablecimiento ha expirado",
+    "email_already_registered": "El correo electrónico ya está registrado"
+
   },
 
   "home_page": {
@@ -41,5 +44,6 @@
     "healthy": "El sistema está funcionando correctamente"
   },
 
-  "welcome_all": "Bienvenido a la API — todo en un solo lugar"
+  "welcome_all": "Bienvenido a la API — todo en un solo lugar",
+  "success": "Operación realizada con éxito"
 }

@@ -4,22 +4,24 @@ const USER_ROLE = {
   ADMIN: 'ADMIN',
 };
 const STATUS = {
-  PENDING: 'PENDING',
-  ACTIVE: 'ACTIVE',
-  PAUSED: 'PAUSED',
-  REJECTED: 'REJECTED',
-};
-const PRODUCT_STATUS = {
-  ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE',
-};
-const BRAND_STATUS = {
   ACTIVE: 'ACTIVE',
-  INACTIVE: 'INACTIVE',
+  ARCHIVED: 'ARCHIVED',
 };
-const REVIEW_STATUS = {
-  ACTIVE: 'ACTIVE',
-  INACTIVE: 'INACTIVE',
+
+const GRADER = {
+  PSA: 'PSA',
+  BGS: 'BGS',
+  CGC: 'CGC',
+  SGC: 'SGC',
+  CGC_COMIC: 'CGC-COMIC',
+  CSG: 'CSG',
+  AGS: 'AGS',
+  GMA: 'GMA',
+  HGA: 'HGA',
+  BCCG: 'BCCG',
+  NONE: "NONE",
+  OTHER: "OTHER"
 };
 const LANGUAGE = {
   ENGLISH: 'ENGLISH',
@@ -30,7 +32,5 @@ module.exports = {
   USER_ROLE,
   STATUS,
   LANGUAGE,
-  PRODUCT_STATUS,
-  BRAND_STATUS,
-  REVIEW_STATUS,
+  GRADER,
 };
