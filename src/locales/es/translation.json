@@ -1,0 +1,45 @@
+{
+  "auth": {
+    "registration_success": "Registro exitoso",
+    "email_verification_required": "Por favor verifica tu correo electrónico",
+    "login_success": "Inicio de sesión exitoso",
+    "invalid_credentials": "Correo o contraseña incorrectos"
+  },
+
+  "errors": {
+    "bad_request": "Solicitud incorrecta",
+    "unauthorized": "No autorizado",
+    "forbidden": "Prohibido",
+    "not_found": "Recurso no encontrado",
+    "method_not_allowed": "Método no permitido",
+    "request_timeout": "Tiempo de espera agotado",
+    "conflict": "Conflicto",
+    "gone": "El recurso ya no está disponible",
+    "payload_too_large": "Carga demasiado grande",
+    "unsupported_media_type": "Tipo de medio no compatible",
+    "unprocessable_entity": "Entidad no procesable",
+    "too_many_requests": "Demasiadas solicitudes",
+    "internal_server_error": "Error interno del servidor",
+    "bad_gateway": "Puerta de enlace incorrecta",
+    "service_unavailable": "Servicio no disponible",
+
+    "invalid_credentials": "Credenciales inválidas",
+    "email_not_verified": "El correo no está verificado",
+    "invalid_otp": "OTP inválido",
+    "reset_password_expired": "El enlace de restablecimiento ha expirado"
+  },
+
+  "home_page": {
+    "welcome": "Bienvenido a nuestra plataforma"
+  },
+
+  "api_page": {
+    "welcome": "Bienvenido a la API"
+  },
+
+  "health_page": {
+    "healthy": "El sistema está funcionando correctamente"
+  },
+
+  "welcome_all": "Bienvenido a la API — todo en un solo lugar"
+}

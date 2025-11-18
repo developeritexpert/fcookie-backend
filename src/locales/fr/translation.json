@@ -1,0 +1,45 @@
+{
+  "auth": {
+    "registration_success": "Inscription réussie",
+    "email_verification_required": "Veuillez vérifier votre e-mail",
+    "login_success": "Connexion réussie",
+    "invalid_credentials": "E-mail ou mot de passe incorrect"
+  },
+
+  "errors": {
+    "bad_request": "Requête incorrecte",
+    "unauthorized": "Non autorisé",
+    "forbidden": "Interdit",
+    "not_found": "Ressource introuvable",
+    "method_not_allowed": "Méthode non autorisée",
+    "request_timeout": "Délai d’attente dépassé",
+    "conflict": "Conflit",
+    "gone": "La ressource n’est plus disponible",
+    "payload_too_large": "Charge utile trop volumineuse",
+    "unsupported_media_type": "Type de média non pris en charge",
+    "unprocessable_entity": "Entité non traitable",
+    "too_many_requests": "Trop de requêtes",
+    "internal_server_error": "Erreur interne du serveur",
+    "bad_gateway": "Mauvaise passerelle",
+    "service_unavailable": "Service indisponible",
+
+    "invalid_credentials": "Identifiants invalides",
+    "email_not_verified": "E-mail non vérifié",
+    "invalid_otp": "OTP invalide",
+    "reset_password_expired": "Le lien de réinitialisation a expiré"
+  },
+
+  "home_page": {
+    "welcome": "Bienvenue sur notre plateforme"
+  },
+
+  "api_page": {
+    "welcome": "Bienvenue sur l’API"
+  },
+
+  "health_page": {
+    "healthy": "Le système est opérationnel"
+  },
+
+  "welcome_all": "Bienvenue sur l’API — tout au même endroit"
+}

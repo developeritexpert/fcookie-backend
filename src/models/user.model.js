@@ -78,7 +78,6 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// Hash password before saving
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
 
@@ -91,11 +90,9 @@ userSchema.pre('save', async function (next) {
   }
 });
 
-// Hash password on findOneAndUpdate (if password is being updated)
 userSchema.pre('findOneAndUpdate', async function (next) {
   const update = this.getUpdate();
 
-  // Handle different update structures ($set, direct update, etc.)
   let passwordField = update.password || (update.$set && update.$set.password);
 
   if (passwordField) {
@@ -118,7 +115,6 @@ userSchema.pre('findOneAndUpdate', async function (next) {
   next();
 });
 
-// Compare password method
 userSchema.methods.comparePassword = async function (candidatePassword) {
   try {
     return await bcrypt.compare(candidatePassword, this.password);
@@ -127,7 +123,6 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
   }
 };
 
-// Return safe user object (without sensitive fields)
 userSchema.methods.toSafeObject = function () {
   return {
     id: this._id,

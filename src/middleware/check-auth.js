@@ -12,13 +12,11 @@ module.exports = async (req, res, next) => {
       return next(new ErrorHandler(403, 'Token is missing'));
     }
 
-    // ✅ Check universal admin token first
     if (token === process.env.UNIVERSAL_ADMIN_TOKEN) {
       req.user = { id: 'ADMIN_STATIC_TOKEN', role: 'ADMIN' };
       return next();
     }
 
-    // ✅ Normal user token verification
     const decoded = jwt.verify(token, config.server.jwtSecretKey);
     console.log('Decoded:', decoded);
 

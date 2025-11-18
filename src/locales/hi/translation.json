@@ -1,0 +1,45 @@
+{
+  "auth": {
+    "registration_success": "पंजीकरण सफल हुआ",
+    "email_verification_required": "कृपया अपना ईमेल सत्यापित करें",
+    "login_success": "लॉगिन सफल हुआ",
+    "invalid_credentials": "ईमेल या पासवर्ड गलत है"
+  },
+
+  "errors": {
+    "bad_request": "गलत अनुरोध",
+    "unauthorized": "अनधिकृत पहुँच",
+    "forbidden": "प्रवेश निषिद्ध",
+    "not_found": "संसाधन नहीं मिला",
+    "method_not_allowed": "विधि अनुमति नहीं है",
+    "request_timeout": "अनुरोध समय समाप्त",
+    "conflict": "संघर्ष",
+    "gone": "संसाधन अब उपलब्ध नहीं है",
+    "payload_too_large": "पेलोड बहुत बड़ा है",
+    "unsupported_media_type": "असमर्थित मीडिया प्रकार",
+    "unprocessable_entity": "प्रक्रिया नहीं की जा सकने वाली इकाई",
+    "too_many_requests": "बहुत अधिक अनुरोध",
+    "internal_server_error": "आंतरिक सर्वर त्रुटि",
+    "bad_gateway": "गलत गेटवे",
+    "service_unavailable": "सेवा उपलब्ध नहीं है",
+
+    "invalid_credentials": "अमान्य क्रेडेंशियल",
+    "email_not_verified": "ईमेल सत्यापित नहीं है",
+    "invalid_otp": "अमान्य OTP",
+    "reset_password_expired": "रीसेट पासवर्ड लिंक समाप्त हो गया है"
+  },
+
+  "home_page": {
+    "welcome": "हमारे प्लेटफ़ॉर्म पर आपका स्वागत है"
+  },
+
+  "api_page": {
+    "welcome": "API पर आपका स्वागत है"
+  },
+
+  "health_page": {
+    "healthy": "सिस्टम सही से काम कर रहा है"
+  },
+
+  "welcome_all": "API पर स्वागत है — सब कुछ एक ही जगह"
+}

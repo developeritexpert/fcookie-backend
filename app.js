@@ -28,6 +28,11 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // --------------------------------------------------
 // Core Middleware (Simplified)
 // --------------------------------------------------
+
+// I18n Middleware for Language Detection
+const i18nMiddleware = require("./src/middleware/i18n");
+app.use(i18nMiddleware);
+
 app.set('trust proxy', true);
 app.use(cors());
 app.use(helmet());
@@ -42,10 +47,10 @@ app.use(expressLogger);
 // --------------------------------------------------
 // Health Check Routes
 // --------------------------------------------------
-app.get('/', (req, res) => res.json({ message: 'API is running...' }));
-app.get(`/${config.server.route}/`, (req, res) => res.json({ message: 'API port is alive...' }));
-app.get(`/${config.server.route}/pingServer`, (req, res) => res.send('OK'));
-app.get('/health', (req, res) => res.status(200).json({ message: 'OK' }));
+app.get('/', (req, res) => res.json({ message: req.t("home_page.welcome") }));
+app.get(`/${config.server.route}/`, (req, res) => res.json({ message: req.t("api_page.welcome") }));
+app.get(`/${config.server.route}/pingServer`, (req, res) => res.send(req.t("welcome_all")));
+app.get('/health', (req, res) => res.status(200).json({ message: req.t("health_page.healthy") }));
 
 // --------------------------------------------------
 // API Routes
@@ -71,42 +76,28 @@ app.use(errors());
 // --------------------------------------------------
 // Custom Error Handler
 // --------------------------------------------------
-app.use((err, req, res, next) => {
-  if (res.headersSent) return next(err);
-
-  const status = err.statusCode || 500;
-  const desc = err.message || 'Internal Server Error';
-  const stack = config.server.nodeEnv === 'prod' ? null : err.stack;
-
-  // Log error
-  logger.error(`${status} - ${desc}`, { stack: err.stack });
-
-  res.status(status).json({
-    result: 'error',
-    code: status,
-    desc,
-    stack,
-  });
-});
-
 app.use(expressErrorLogger);
 
+
 app.use((err, req, res, next) => {
   if (res.headersSent) return next(err);
 
   const status = err.statusCode || 500;
-  const desc = err.message || 'Internal Server Error';
-  const stack = config.server.nodeEnv === 'prod' ? null : err.stack;
 
-  logger.error(`${status} - ${desc}`, { stack: err.stack });
+  const messageKey = err.messageKey || "errors.internal_server_error";
+
+  const translatedMessage = req.t(messageKey);
+
+  logger.error(`${status} - ${translatedMessage}`, { stack: err.stack });
 
   res.status(status).json({
-    result: 'error',
+    result: "error",
     code: status,
-    desc,
-    stack,
+    desc: translatedMessage,
+    stack: config.server.nodeEnv === "prod" ? null : err.stack,
   });
 });
+
 
 process.on('unhandledRejection', (error) => {
   logger.error(`Unhandled Rejection: ${error.message}`, { stack: error.stack });

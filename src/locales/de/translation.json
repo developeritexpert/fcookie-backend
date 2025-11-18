@@ -1,0 +1,45 @@
+{
+  "auth": {
+    "registration_success": "Registrierung erfolgreich",
+    "email_verification_required": "Bitte verifiziere deine E-Mail",
+    "login_success": "Anmeldung erfolgreich",
+    "invalid_credentials": "Ungültige E-Mail oder Passwort"
+  },
+
+  "errors": {
+    "bad_request": "Ungültige Anfrage",
+    "unauthorized": "Nicht autorisiert",
+    "forbidden": "Verboten",
+    "not_found": "Ressource nicht gefunden",
+    "method_not_allowed": "Methode nicht erlaubt",
+    "request_timeout": "Zeitüberschreitung",
+    "conflict": "Konflikt",
+    "gone": "Ressource nicht mehr verfügbar",
+    "payload_too_large": "Nutzlast zu groß",
+    "unsupported_media_type": "Nicht unterstützter Medientyp",
+    "unprocessable_entity": "Nicht verarbeitbare Entität",
+    "too_many_requests": "Zu viele Anfragen",
+    "internal_server_error": "Interner Serverfehler",
+    "bad_gateway": "Fehlerhaftes Gateway",
+    "service_unavailable": "Dienst nicht verfügbar",
+
+    "invalid_credentials": "Ungültige Zugangsdaten",
+    "email_not_verified": "E-Mail ist nicht verifiziert",
+    "invalid_otp": "Ungültiger OTP",
+    "reset_password_expired": "Link zum Zurücksetzen des Passworts ist abgelaufen"
+  },
+
+  "home_page": {
+    "welcome": "Willkommen auf unserer Plattform"
+  },
+
+  "api_page": {
+    "welcome": "Willkommen zur API"
+  },
+
+  "health_page": {
+    "healthy": "System ist funktionsfähig"
+  },
+
+  "welcome_all": "Willkommen zur API — alles an einem Ort"
+}

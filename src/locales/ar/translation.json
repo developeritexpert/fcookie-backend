@@ -1,0 +1,45 @@
+{
+  "auth": {
+    "registration_success": "تم التسجيل بنجاح",
+    "email_verification_required": "يرجى التحقق من بريدك الإلكتروني",
+    "login_success": "تم تسجيل الدخول بنجاح",
+    "invalid_credentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة"
+  },
+
+  "errors": {
+    "bad_request": "طلب غير صالح",
+    "unauthorized": "غير مصرح",
+    "forbidden": "محظور",
+    "not_found": "المورد غير موجود",
+    "method_not_allowed": "الطريقة غير مسموحة",
+    "request_timeout": "انتهت مهلة الطلب",
+    "conflict": "تعارض",
+    "gone": "المورد لم يعد متاحًا",
+    "payload_too_large": "البيانات كبيرة جدًا",
+    "unsupported_media_type": "نوع الوسائط غير مدعوم",
+    "unprocessable_entity": "لا يمكن معالجة الطلب",
+    "too_many_requests": "طلبات كثيرة جدًا",
+    "internal_server_error": "خطأ داخلي في الخادم",
+    "bad_gateway": "بوابة غير صالحة",
+    "service_unavailable": "الخدمة غير متاحة",
+
+    "invalid_credentials": "بيانات اعتماد غير صالحة",
+    "email_not_verified": "البريد الإلكتروني غير مُحقق",
+    "invalid_otp": "رمز OTP غير صالح",
+    "reset_password_expired": "رابط إعادة تعيين كلمة المرور منتهي"
+  },
+
+  "home_page": {
+    "welcome": "مرحبًا بك في منصتنا"
+  },
+
+  "api_page": {
+    "welcome": "مرحبًا بك في واجهة API"
+  },
+
+  "health_page": {
+    "healthy": "النظام يعمل بشكل جيد"
+  },
+
+  "welcome_all": "مرحبًا بك في API — كل شيء في مكان واحد"
+}

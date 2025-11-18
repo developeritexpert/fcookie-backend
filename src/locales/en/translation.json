@@ -1,0 +1,45 @@
+{
+  "auth": {
+    "registration_success": "Registration successful",
+    "email_verification_required": "Please verify your email",
+    "login_success": "Login successful",
+    "invalid_credentials": "Invalid email or password"
+  },
+
+  "errors": {
+    "bad_request": "Bad request",
+    "unauthorized": "Unauthorized",
+    "forbidden": "Forbidden",
+    "not_found": "Resource not found",
+    "method_not_allowed": "Method Not Allowed",
+    "request_timeout": "Request Timeout",
+    "conflict": "Conflict",
+    "gone": "Resource Gone",
+    "payload_too_large": "Payload Too Large",
+    "unsupported_media_type": "Unsupported Media Type",
+    "unprocessable_entity": "Unprocessable Entity",
+    "too_many_requests": "Too Many Requests",
+    "internal_server_error": "Internal server error",
+    "bad_gateway": "Bad Gateway",
+    "service_unavailable": "Service Unavailable",
+
+    "invalid_credentials": "Invalid credentials",
+    "email_not_verified": "Email is not verified",
+    "invalid_otp": "Invalid OTP",
+    "reset_password_expired": "Reset password link expired"
+  },
+
+  "home_page": {
+    "welcome": "Welcome to our platform"
+  },
+
+  "api_page": {
+    "welcome": "Welcome to the API"
+  },
+
+  "health_page": {
+    "healthy": "System is healthy"
+  },
+
+  "welcome_all": "Welcome to the API — everything in one place"
+}
