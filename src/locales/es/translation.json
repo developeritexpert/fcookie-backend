@@ -31,7 +31,22 @@
     "email_already_registered": "El correo electrónico ya está registrado"
 
   },
-
+  "category":{
+    "create_success": "Categoría creada con éxito",
+    "fetch_success": "Categorías obtenidas con éxito",
+    "not_found":"Categoría no encontrada",
+    "name_exists": "El nombre ya existe",
+    "update_success": "Categoría actualizada con éxito",
+    "delete_success": "Categoría eliminada con éxito"
+  },
+  "set": {
+    "create_success": "Set creado con éxito",
+    "fetch_success": "Sets obtenidos con éxito",
+    "not_found": "Set no encontrado",
+    "name_exists": "El nombre del set ya existe",
+    "update_success": "Set actualizado con éxito",
+    "delete_success": "Set eliminado con éxito"
+  },
   "home_page": {
     "welcome": "Bienvenido a nuestra plataforma"
   },

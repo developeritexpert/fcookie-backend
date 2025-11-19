@@ -31,7 +31,22 @@
     "email_already_registered": "L’e-mail est déjà enregistré"
 
   },
-
+  "category":{
+    "create_success": "Catégorie créée avec succès",
+    "fetch_success": "Catégories récupérées avec succès",
+    "not_found":"Catégorie introuvable",
+    "name_exists": "Le nom existe déjà",
+    "update_success": "Catégorie mise à jour avec succès",
+    "delete_success": "Catégorie supprimée avec succès"
+  },
+  "set": {
+    "create_success": "Set créé avec succès",
+    "fetch_success": "Sets récupérés avec succès",
+    "not_found": "Set introuvable",
+    "name_exists": "Le nom du set existe déjà",
+    "update_success": "Set mis à jour avec succès",
+    "delete_success": "Set supprimé avec succès"
+  },
   "home_page": {
     "welcome": "Bienvenue sur notre plateforme"
   },

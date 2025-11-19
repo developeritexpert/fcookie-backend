@@ -25,31 +25,32 @@ categoryRouter.post(
   categoryController.createCategory
 );
 
-// categoryRouter.get(
-//   API.GET_ALL,
-//   authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
-//   categoryController.getAllCategories
-// );
+categoryRouter.get(
+  API.GET_ALL,
+  authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
+  celebrate(CategorySchema.listCategories),
+  categoryController.getAllCategories
+);
 
-// categoryRouter.get(
-//   API.GET_BY_ID,
-//   authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
-//   celebrate(CategorySchema.getCategory),
-//   categoryController.getCategoryById
-// );
+categoryRouter.get(
+  API.GET_BY_ID,
+  authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
+  celebrate(CategorySchema.getCategory),
+  categoryController.getCategoryById
+);
 
-// categoryRouter.put(
-//   API.UPDATE_BY_ID,
-//   authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN]),
-//   celebrate(CategorySchema.updateCategory),
-//   categoryController.updateCategory
-// );
+categoryRouter.put(
+  API.UPDATE_BY_ID,
+  authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN]),
+  celebrate(CategorySchema.updateCategory),
+  categoryController.updateCategory
+);
 
-// categoryRouter.delete(
-//   API.DELETE_BY_ID,
-//   authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN]),
-//   celebrate(CategorySchema.deleteCategory),
-//   categoryController.deleteCategory
-// );
+categoryRouter.delete(
+  API.DELETE_BY_ID,
+  authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN]),
+  celebrate(CategorySchema.deleteCategory),
+  categoryController.deleteCategory
+);
 
 module.exports = categoryRouter;

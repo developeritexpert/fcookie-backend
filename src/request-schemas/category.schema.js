@@ -10,7 +10,7 @@ const createCategory = {
       "any.required": "Name is required",
     }),
 
-    description: Joi.string().allow("").optional(),
+    description: Joi.string().trim().optional().allow(""),
     icon: Joi.string().allow("").optional(),
     
     status: Joi.string()
@@ -29,6 +29,16 @@ const updateCategory = {
   [Segments.BODY]: Joi.object()
     .keys({
       name: Joi.string().min(2).max(100).optional(),
+      slug: Joi.string()
+      .pattern(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+      .min(2)
+      .max(100)
+      .optional()
+      .messages({
+        "string.pattern.base":
+          "Slug must contain only lowercase letters, numbers, and hyphens",
+      }),
+
 
       description: Joi.string().allow("").optional(),
       icon: Joi.string().allow("").optional(),
@@ -64,6 +74,7 @@ const listCategories = {
     page: Joi.number().integer().min(1).default(1),
     limit: Joi.number().integer().min(1).max(200).default(20),
     search: Joi.string().allow("").optional(),
+    name: Joi.string().allow("").optional(),
     status: Joi.string()
       .valid(...Object.values(CONSTANT_ENUM.STATUS))
       .optional(),

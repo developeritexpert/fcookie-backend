@@ -30,6 +30,23 @@
     "email_already_registered": "البريد الإلكتروني مسجل بالفعل"
 
   },
+  "category":{
+    "create_success": "تم إنشاء الفئة بنجاح",
+    "fetch_success": "تم جلب الفئات بنجاح",
+    "not_found": "الفئة غير موجودة",
+    "name_exists": "الاسم موجود بالفعل",
+    "update_success": "تم تحديث الفئة بنجاح",
+    "delete_success": "تم حذف الفئة بنجاح"
+  },
+  "set": {
+    "create_success": "تم إنشاء المجموعة بنجاح",
+    "fetch_success": "تم جلب المجموعات بنجاح",
+    "not_found": "المجموعة غير موجودة",
+    "name_exists": "اسم المجموعة موجود بالفعل",
+    "update_success": "تم تحديث المجموعة بنجاح",
+    "delete_success": "تم حذف المجموعة بنجاح"
+  },
+
 
   "home_page": {
     "welcome": "مرحبًا بك في منصتنا"
