@@ -10,7 +10,7 @@ const register = async ({ name, email, password, phoneNumber }) => {
   const normalized = email.toLowerCase();
 
   const exists = await User.findOne({ email: normalized });
-  if (exists) throw new ErrorHandler(409, "errors.email_already_registered");
+  if (exists) throw new ErrorHandler(409, 'errors.email_already_registered');
 
   const user = await User.create({ name, email: normalized, password, phoneNumber });
 
@@ -19,15 +19,17 @@ const register = async ({ name, email, password, phoneNumber }) => {
     user.verificationTokenExpires = Date.now() + authConfig.tokens.verificationToken.expiry;
     await user.save();
 
-    mailService.sendVerificationEmail({
-      to: user.email,
-      name: user.name,
-      token: user.verificationToken,
-    }).catch((err) => console.error("Email send failed:", err));
+    mailService
+      .sendVerificationEmail({
+        to: user.email,
+        name: user.name,
+        token: user.verificationToken,
+      })
+      .catch((err) => console.error('Email send failed:', err));
 
     return {
       data: { user: user.toSafeObject() },
-      message: "auth.registration_success_verify",
+      message: 'auth.registration_success_verify',
     };
   }
 
@@ -36,11 +38,9 @@ const register = async ({ name, email, password, phoneNumber }) => {
 
   return {
     data: { user: user.toSafeObject() },
-    message: "auth.registration_success",
+    message: 'auth.registration_success',
   };
 };
-
-
 
 const login = async (email, password, rememberMe = false) => {
   const normalized = email.toLowerCase();
@@ -81,7 +81,6 @@ const login = async (email, password, rememberMe = false) => {
     message: 'auth.login_success',
   };
 };
-
 
 const verifyEmail = async (token) => {
   const user = await User.findOne({

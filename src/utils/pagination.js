@@ -27,8 +27,6 @@ function extractFilters(query, allowedFilters, additionalFilters = {}) {
   return Object.assign({}, filters, additionalFilters);
 }
 
-
-
 const buildCategoryFilters = (query) => {
   const filters = {};
 
@@ -58,11 +56,42 @@ const buildSetFilters = (query) => {
 
   return filters;
 };
+const buildFilterGroupFilters = (query) => {
+  const filters = {};
 
+  if (query._id) filters._id = query._id;
+  if (query.categoryId) filters.categoryId = query.categoryId;
+  if (query.slug) filters.slug = query.slug;
+
+  if (query.status) filters.status = query.status;
+
+  if (query.name) {
+    filters.name = { $regex: query.name, $options: 'i' };
+  }
+
+  return filters;
+};
+const buildFilterValueFilters = (query) => {
+  const filters = {};
+
+  if (query._id) filters._id = query._id;
+  if (query.groupId) filters.groupId = query.groupId;
+  if (query.valueKey) filters.valueKey = query.valueKey;
+
+  if (query.status) filters.status = query.status;
+
+  if (query.label) {
+    filters.label = { $regex: query.label, $options: 'i' };
+  }
+
+  return filters;
+};
 module.exports = {
   getPaginationParams,
   getFinalPagination,
   extractFilters,
   buildCategoryFilters,
   buildSetFilters,
+  buildFilterGroupFilters,
+  buildFilterValueFilters,
 };

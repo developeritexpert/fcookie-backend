@@ -25,17 +25,9 @@ SetRouter.post(
   setController.createSet
 );
 
-SetRouter.get(
-  API.GET_ALL,
-  celebrate(SetSchema.listSets),
-  setController.getAllSets
-);
+SetRouter.get(API.GET_ALL, celebrate(SetSchema.listSets), setController.getAllSets);
 
-SetRouter.get(
-  API.GET_BY_ID,
-  celebrate(SetSchema.getSet),
-  setController.getSetById
-);
+SetRouter.get(API.GET_BY_ID, celebrate(SetSchema.getSet), setController.getSetById);
 
 SetRouter.put(
   API.UPDATE_BY_ID,

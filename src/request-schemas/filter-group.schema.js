@@ -1,7 +1,7 @@
 const { Joi, Segments } = require('celebrate');
 const CONSTANT_ENUM = require('../helper/constant-enums');
 
-const createCategory = {
+const createFilterGroup = {
   [Segments.BODY]: Joi.object().keys({
     name: Joi.string().min(2).max(100).required().messages({
       'string.base': 'Name must be a string',
@@ -10,25 +10,43 @@ const createCategory = {
       'any.required': 'Name is required',
     }),
 
-    description: Joi.string().trim().optional().allow(''),
-    icon: Joi.string().allow('').optional(),
+    slug: Joi.string()
+      .pattern(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+      .min(2)
+      .max(100)
+      .optional()
+      .messages({
+        'string.pattern.base': 'Slug must contain only lowercase letters, numbers, and hyphens',
+        'any.required': 'Slug is required',
+      }),
+
+    type: Joi.string()
+      .valid(...Object.values(CONSTANT_ENUM.FILTER_TYPE))
+      .optional(),
+
+    required: Joi.boolean().optional(),
+    archived: Joi.boolean().optional(),
 
     status: Joi.string()
       .valid(...Object.values(CONSTANT_ENUM.STATUS))
       .optional(),
+
+    protected: Joi.boolean().optional(),
+    order: Joi.number().integer().optional(),
   }),
 };
 
-const updateCategory = {
+const updateFilterGroup = {
   [Segments.PARAMS]: Joi.object().keys({
     id: Joi.string().required().messages({
-      'any.required': 'Category ID is required',
+      'any.required': 'FilterGroup ID is required',
     }),
   }),
 
   [Segments.BODY]: Joi.object()
     .keys({
       name: Joi.string().min(2).max(100).optional(),
+
       slug: Joi.string()
         .pattern(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
         .min(2)
@@ -38,12 +56,19 @@ const updateCategory = {
           'string.pattern.base': 'Slug must contain only lowercase letters, numbers, and hyphens',
         }),
 
-      description: Joi.string().allow('').optional(),
-      icon: Joi.string().allow('').optional(),
+      type: Joi.string()
+        .valid(...Object.values(CONSTANT_ENUM.FILTER_TYPE))
+        .optional(),
+
+      required: Joi.boolean().optional(),
+      archived: Joi.boolean().optional(),
 
       status: Joi.string()
         .valid(...Object.values(CONSTANT_ENUM.STATUS))
         .optional(),
+
+      protected: Joi.boolean().optional(),
+      order: Joi.number().integer().optional(),
     })
     .min(1)
     .messages({
@@ -51,39 +76,47 @@ const updateCategory = {
     }),
 };
 
-const deleteCategory = {
+const deleteFilterGroup = {
   [Segments.PARAMS]: Joi.object().keys({
     id: Joi.string().required().messages({
-      'any.required': 'Category ID is required',
+      'any.required': 'FilterGroup ID is required',
     }),
   }),
 };
 
-const getCategory = {
+const getFilterGroup = {
   [Segments.PARAMS]: Joi.object().keys({
     id: Joi.string().required().messages({
-      'any.required': 'Category ID is required',
+      'any.required': 'FilterGroup ID is required',
     }),
   }),
 };
 
-const listCategories = {
+const listFilterGroups = {
   [Segments.QUERY]: Joi.object().keys({
     page: Joi.number().integer().min(1).default(1),
     limit: Joi.number().integer().min(1).max(200).default(20),
     search: Joi.string().allow('').optional(),
     name: Joi.string().allow('').optional(),
+    slug: Joi.string().allow('').optional(),
+    type: Joi.string()
+      .valid(...Object.values(CONSTANT_ENUM.FILTER_TYPE))
+      .optional(),
     status: Joi.string()
       .valid(...Object.values(CONSTANT_ENUM.STATUS))
       .optional(),
-    isActive: Joi.boolean().optional(),
+    archived: Joi.boolean().optional(),
+    required: Joi.boolean().optional(),
+    protected: Joi.boolean().optional(),
+    sortBy: Joi.string().valid('name', 'slug', 'order', 'createdAt', 'updatedAt').optional(),
+    order: Joi.string().valid('asc', 'desc').optional(),
   }),
 };
 
 module.exports = {
-  createCategory,
-  updateCategory,
-  deleteCategory,
-  getCategory,
-  listCategories,
+  createFilterGroup,
+  updateFilterGroup,
+  deleteFilterGroup,
+  getFilterGroup,
+  listFilterGroups,
 };

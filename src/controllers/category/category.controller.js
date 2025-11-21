@@ -5,7 +5,7 @@ const { getPaginationParams, buildCategoryFilters } = require('../../utils/pagin
 
 const createCategory = wrapAsync(async (req, res) => {
   const data = await categoryService.createCategory(req.body);
-  sendResponse(res, data, "category.create_success", 201);
+  sendResponse(res, data, 'category.create_success', 201);
 });
 
 // const getAllCategories = wrapAsync(async (req, res) => {
@@ -22,20 +22,19 @@ const getAllCategories = wrapAsync(async (req, res) => {
   sendResponse(res, result, 'category.fetch_success', 200);
 });
 
-
 const getCategoryById = wrapAsync(async (req, res) => {
   const data = await categoryService.getCategoryById(req.params.id);
-  sendResponse(res, data, "category.fetch_success", 200);
+  sendResponse(res, data, 'category.fetch_success', 200);
 });
 
 const updateCategory = wrapAsync(async (req, res) => {
   const data = await categoryService.updateCategory(req.params.id, req.body);
-  sendResponse(res, data, "category.update_success", 200);
+  sendResponse(res, data, 'category.update_success', 200);
 });
 
 const deleteCategory = wrapAsync(async (req, res) => {
   await categoryService.deleteCategory(req.params.id);
-  sendResponse(res, null, "category.delete_success", 200);
+  sendResponse(res, null, 'category.delete_success', 200);
 });
 
 module.exports = {

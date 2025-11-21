@@ -17,6 +17,8 @@ const authRoutes = require('./src/routes/auth/auth.routes');
 const profileRouter = require('./src/routes/profile/profile.route');
 const categoryRouter = require('./src/routes/category/category.routes');
 const setRouter = require('./src/routes/set/set.route');
+const FilterGroupRouter = require('./src/routes/filter/filter-group.router');
+const FilterValueRouter = require('./src/routes/filter/filter-value.router');
 
 const app = express();
 
@@ -32,7 +34,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // --------------------------------------------------
 
 // I18n Middleware for Language Detection
-const i18nMiddleware = require("./src/middleware/i18n");
+const i18nMiddleware = require('./src/middleware/i18n');
 app.use(i18nMiddleware);
 
 app.set('trust proxy', true);
@@ -49,10 +51,10 @@ app.use(expressLogger);
 // --------------------------------------------------
 // Health Check Routes
 // --------------------------------------------------
-app.get('/', (req, res) => res.json({ message: req.t("home_page.welcome") }));
-app.get(`/${config.server.route}/`, (req, res) => res.json({ message: req.t("api_page.welcome") }));
-app.get(`/${config.server.route}/pingServer`, (req, res) => res.send(req.t("welcome_all")));
-app.get('/health', (req, res) => res.status(200).json({ message: req.t("health_page.healthy") }));
+app.get('/', (req, res) => res.json({ message: req.t('home_page.welcome') }));
+app.get(`/${config.server.route}/`, (req, res) => res.json({ message: req.t('api_page.welcome') }));
+app.get(`/${config.server.route}/pingServer`, (req, res) => res.send(req.t('welcome_all')));
+app.get('/health', (req, res) => res.status(200).json({ message: req.t('health_page.healthy') }));
 
 // --------------------------------------------------
 // API Routes
@@ -62,6 +64,8 @@ app.use(`/${config.server.route}/auth`, authRoutes);
 app.use(`/${config.server.route}/profile`, profileRouter);
 app.use(`/${config.server.route}/category`, categoryRouter);
 app.use(`/${config.server.route}/set`, setRouter);
+app.use(`/${config.server.route}/filter-groups`, FilterGroupRouter);
+app.use(`/${config.server.route}/filter-values`, FilterValueRouter);
 
 // --------------------------------------------------
 // 404 Handler
@@ -82,26 +86,24 @@ app.use(errors());
 // --------------------------------------------------
 app.use(expressErrorLogger);
 
-
 app.use((err, req, res, next) => {
   if (res.headersSent) return next(err);
 
   const status = err.statusCode || 500;
 
-  const messageKey = err.messageKey || "errors.internal_server_error";
+  const messageKey = err.messageKey || 'errors.internal_server_error';
 
   const translatedMessage = req.t(messageKey);
 
   logger.error(`${status} - ${translatedMessage}`, { stack: err.stack });
 
   res.status(status).json({
-    result: "error",
+    result: 'error',
     code: status,
     desc: translatedMessage,
-    stack: config.server.nodeEnv === "prod" ? null : err.stack,
+    stack: config.server.nodeEnv === 'prod' ? null : err.stack,
   });
 });
-
 
 process.on('unhandledRejection', (error) => {
   logger.error(`Unhandled Rejection: ${error.message}`, { stack: error.stack });

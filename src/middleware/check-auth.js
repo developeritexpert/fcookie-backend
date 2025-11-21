@@ -18,10 +18,10 @@ module.exports = async (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, config.server.jwtSecretKey);
-    console.log('Decoded:', decoded);
+    // console.log('Decoded:', decoded);
 
     const userExist = await UserServices.getUserByID(decoded.id, true);
-    console.log('User Exist:', userExist);
+    // console.log('User Exist:', userExist);
 
     if (!userExist) {
       return next(new ErrorHandler(404, "Couldn't find your account, please create an account"));

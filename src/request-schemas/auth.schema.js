@@ -27,7 +27,6 @@ const registerUser = {
     phoneNumber: Joi.string().required().messages({
       'any.required': 'Phone number is required',
     }),
-
   }),
 };
 

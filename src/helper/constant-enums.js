@@ -20,17 +20,23 @@ const GRADER = {
   GMA: 'GMA',
   HGA: 'HGA',
   BCCG: 'BCCG',
-  NONE: "NONE",
-  OTHER: "OTHER"
+  NONE: 'NONE',
+  OTHER: 'OTHER',
 };
 const LANGUAGE = {
   ENGLISH: 'ENGLISH',
   SPANISH: 'SPANISH',
 };
-
+const FILTER_TYPE = {
+  SINGLE: 'single',
+  MULTI: 'multi',
+  NUMBER: 'number',
+  TEXT: 'text',
+};
 module.exports = {
   USER_ROLE,
   STATUS,
   LANGUAGE,
   GRADER,
+  FILTER_TYPE,
 };

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 
-const CONSTANT_ENUM = require("../helper/constant-enums");
+const CONSTANT_ENUM = require('../helper/constant-enums');
 
 const CategorySchema = new mongoose.Schema(
   {
@@ -10,14 +10,13 @@ const CategorySchema = new mongoose.Schema(
     description: { type: String },
     icon: { type: String },
     status: {
-        type: String,
-        enum: Object.values(CONSTANT_ENUM.STATUS),
-        default: CONSTANT_ENUM.STATUS.ACTIVE,
-    }
-
+      type: String,
+      enum: Object.values(CONSTANT_ENUM.STATUS),
+      default: CONSTANT_ENUM.STATUS.ACTIVE,
+    },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 

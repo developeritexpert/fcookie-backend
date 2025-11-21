@@ -27,10 +27,47 @@
     "email_not_verified": "البريد الإلكتروني غير مُحقق",
     "invalid_otp": "رمز OTP غير صالح",
     "reset_password_expired": "رابط إعادة تعيين كلمة المرور منتهي",
-    "email_already_registered": "البريد الإلكتروني مسجل بالفعل"
+    "email_already_registered": "البريد الإلكتروني مسجل بالفعل",
 
+    "name_already_exists": "الاسم موجود بالفعل",
+    "slug_already_exists": "المعرف موجود بالفعل",
+    "email_already_exists": "البريد الإلكتروني موجود بالفعل",
+    "title_already_exists": "العنوان موجود بالفعل",
+    "code_already_exists": "الرمز موجود بالفعل",
+    "value_already_exists": "القيمة موجودة بالفعل",
+    "key_already_exists": "المفتاح موجود بالفعل",
+    "id_already_exists": "المعرف موجود بالفعل",
+    "username_already_exists": "اسم المستخدم موجود بالفعل",
+    "mobile_already_exists": "رقم الهاتف موجود بالفعل",
+    "phone_already_exists": "رقم الهاتف موجود بالفعل",
+    "tag_already_exists": "الوسم موجود بالفعل",
+
+    "name_validation_failed": "فشل التحقق من الاسم",
+    "slug_validation_failed": "فشل التحقق من المعرف",
+    "email_validation_failed": "فشل التحقق من البريد الإلكتروني",
+    "password_validation_failed": "فشل التحقق من كلمة المرور",
+    "title_validation_failed": "فشل التحقق من العنوان",
+    "code_validation_failed": "فشل التحقق من الرمز",
+    "value_validation_failed": "فشل التحقق من القيمة",
+    "field_validation_failed": "فشل التحقق من الحقل",
+    "id_validation_failed": "فشل التحقق من المعرف",
+    "username_validation_failed": "فشل التحقق من اسم المستخدم",
+    "mobile_validation_failed": "فشل التحقق من رقم الهاتف",
+    "phone_validation_failed": "فشل التحقق من رقم الهاتف",
+    "tag_validation_failed": "فشل التحقق من التسمية",
+
+    "invalid_id": "معرف غير صالح",
+    "invalid__id": "معرف غير صالح",
+    "invalid_slug": "معرف غير صالح",
+    "invalid_name": "اسم غير صالح",
+    "invalid_email": "البريد الإلكتروني غير صالح",
+    "invalid_user": "مستخدم غير صالح",
+    "invalid_filterGroup": "مجموعة فلتر غير صالحة",
+    "invalid_category": "فئة غير صالحة",
+    "invalid_set": "مجموعة غير صالحة",
+    "invalid_filter": "فلتر غير صالح"
   },
-  "category":{
+  "category": {
     "create_success": "تم إنشاء الفئة بنجاح",
     "fetch_success": "تم جلب الفئات بنجاح",
     "not_found": "الفئة غير موجودة",
@@ -46,7 +83,6 @@
     "update_success": "تم تحديث المجموعة بنجاح",
     "delete_success": "تم حذف المجموعة بنجاح"
   },
-
 
   "home_page": {
     "welcome": "مرحبًا بك في منصتنا"

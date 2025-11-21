@@ -15,16 +15,10 @@ const sendResponseOld = (res, payload, message = 'Success', statusCode = 200) =>
 //   res.status(statusCode).json(response);
 // };
 
-const sendResponse = (
-  res,
-  data = {},
-  messageKey = "success",
-  statusCode = 200,
-  extra = {}
-) => {
+const sendResponse = (res, data = {}, messageKey = 'success', statusCode = 200, extra = {}) => {
   const t = res.req.t;
 
-  const translatedMessage = messageKey ? t(messageKey) : "";
+  const translatedMessage = messageKey ? t(messageKey) : '';
 
   const response = {
     data,
@@ -35,9 +29,6 @@ const sendResponse = (
 
   return res.status(statusCode).json(response);
 };
-
-
-
 
 module.exports = {
   sendResponse,

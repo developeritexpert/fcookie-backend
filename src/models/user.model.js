@@ -1,15 +1,14 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-const CONSTANT_ENUM = require("../helper/constant-enums");
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const CONSTANT_ENUM = require('../helper/constant-enums');
 
 const SALT_ROUNDS = 10;
 
 const userSchema = new mongoose.Schema(
   {
-
     name: {
       type: String,
-      required: [true, "Name is required"],
+      required: [true, 'Name is required'],
       trim: true,
       minlength: 2,
       maxlength: 50,
@@ -17,11 +16,11 @@ const userSchema = new mongoose.Schema(
 
     email: {
       type: String,
-      required: [true, "Email is required"],
+      required: [true, 'Email is required'],
       unique: true,
       lowercase: true,
       trim: true,
-      match: [/^\S+@\S+\.\S+$/, "Invalid email format"],
+      match: [/^\S+@\S+\.\S+$/, 'Invalid email format'],
       index: true,
     },
 
@@ -34,13 +33,13 @@ const userSchema = new mongoose.Schema(
 
     avatar: {
       type: String,
-      default: "",
+      default: '',
     },
 
     phoneNumber: {
       type: String,
       trim: true,
-      default: "",
+      default: '',
     },
 
     role: {
@@ -98,7 +97,6 @@ const userSchema = new mongoose.Schema(
       default: null,
     },
 
-
     wallet: {
       balance: {
         type: Number,
@@ -106,18 +104,17 @@ const userSchema = new mongoose.Schema(
       },
       currency: {
         type: String,
-        default: "USD",
+        default: 'USD',
       },
       transactions: [
         {
           amount: Number,
-          type: { type: String, enum: ["credit", "debit"] },
+          type: { type: String, enum: ['credit', 'debit'] },
           note: String,
           createdAt: { type: Date, default: Date.now },
         },
       ],
     },
-
 
     spinStats: {
       totalPurchases: { type: Number, default: 0 },
@@ -147,21 +144,19 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-
 userSchema.index({ email: 1 });
 userSchema.index({ role: 1 });
 userSchema.index({ isActive: 1 });
 userSchema.index({ isDeleted: 1 });
-userSchema.index({ "wallet.balance": 1 });
+userSchema.index({ 'wallet.balance': 1 });
 
-
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, SALT_ROUNDS);
   next();
 });
 
-userSchema.pre("findOneAndUpdate", async function (next) {
+userSchema.pre('findOneAndUpdate', async function (next) {
   const update = this.getUpdate();
   const password = update?.password || update?.$set?.password;
 
@@ -174,11 +169,9 @@ userSchema.pre("findOneAndUpdate", async function (next) {
   next();
 });
 
-
 userSchema.methods.comparePassword = async function (plainPassword) {
   return await bcrypt.compare(plainPassword, this.password);
 };
-
 
 userSchema.methods.toSafeObject = function () {
   return {
@@ -198,5 +191,5 @@ userSchema.methods.toSafeObject = function () {
   };
 };
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model('User', userSchema);
 module.exports = { User };

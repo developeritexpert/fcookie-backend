@@ -6,7 +6,7 @@ const createCategory = async (payload) => {
     return await Category.create(payload);
   } catch (err) {
     if (err.code === 11000) {
-      throw new ErrorHandler(409, "category.name_exists");
+      throw new ErrorHandler(409, 'category.name_exists');
     }
     throw new ErrorHandler(500, err.message);
   }
@@ -20,12 +20,9 @@ const getAllCategories = async (page, limit, filters, sortBy = 'createdAt', orde
   sort[sortBy] = sortOrder;
 
   const [categories, total] = await Promise.all([
-    Category.find(filters)
-      .sort(sort)
-      .skip(skip)
-      .limit(limit),
+    Category.find(filters).sort(sort).skip(skip).limit(limit),
 
-    Category.countDocuments(filters)
+    Category.countDocuments(filters),
   ]);
 
   return {
@@ -35,14 +32,13 @@ const getAllCategories = async (page, limit, filters, sortBy = 'createdAt', orde
       page,
       limit,
       totalPages: Math.ceil(total / limit),
-    }
+    },
   };
 };
 
-
 const getCategoryById = async (id) => {
   const category = await Category.findById(id);
-  if (!category) throw new ErrorHandler(404, "category.not_found");
+  if (!category) throw new ErrorHandler(404, 'category.not_found');
   return category;
 };
 
@@ -52,13 +48,13 @@ const updateCategory = async (id, payload) => {
     runValidators: true,
   });
 
-  if (!updated) throw new ErrorHandler(404, "category.not_found");
+  if (!updated) throw new ErrorHandler(404, 'category.not_found');
   return updated;
 };
 
 const deleteCategory = async (id) => {
   const deleted = await Category.findByIdAndDelete(id);
-  if (!deleted) throw new ErrorHandler(404, "category.not_found");
+  if (!deleted) throw new ErrorHandler(404, 'category.not_found');
   return true;
 };
 

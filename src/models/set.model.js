@@ -8,7 +8,7 @@ const SetSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Category',
       required: true,
-      index: true
+      index: true,
     },
 
     name: { type: String, required: true },
@@ -19,7 +19,7 @@ const SetSchema = new mongoose.Schema(
       type: String,
       enum: Object.values(CONSTANT_ENUM.STATUS),
       default: CONSTANT_ENUM.STATUS.ACTIVE,
-    }
+    },
   },
   { timestamps: true }
 );
