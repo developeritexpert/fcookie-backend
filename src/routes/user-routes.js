@@ -33,7 +33,7 @@ userRouter.get(
 userRouter.put(
   API.UPDATE_USER,
   celebrate(UserSchema.updateUser),
-  authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN]),
+  authorizedRoles([CONSTANT_ENUM.USER_ROLE.USER]),
   UserController.update
 );
 

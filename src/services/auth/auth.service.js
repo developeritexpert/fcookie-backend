@@ -1,4 +1,3 @@
-// services/auth.service.js
 const { User } = require('../../models/user.model');
 const { OTP } = require('../../models/otp.model');
 const { ErrorHandler } = require('../../utils/error-handler');
@@ -7,15 +6,14 @@ const TOKEN_GEN = require('../../helper/generate-token');
 const mailService = require('../../mail/mails');
 const authConfig = require('../../config/auth.config');
 
-const register = async ({ name, email, password }) => {
+const register = async ({ name, email, password, phoneNumber }) => {
   const normalized = email.toLowerCase();
 
   const exists = await User.findOne({ email: normalized });
-  if (exists) throw new ErrorHandler(409, 'Email already registered');
+  if (exists) throw new ErrorHandler(409, 'errors.email_already_registered');
 
-  const user = await User.create({ name, email: normalized, password });
+  const user = await User.create({ name, email: normalized, password, phoneNumber });
 
-  // Email Verification (if enabled)
   if (authConfig.features.emailVerification) {
     user.verificationToken = generateVerificationToken();
     user.verificationTokenExpires = Date.now() + authConfig.tokens.verificationToken.expiry;
@@ -31,27 +29,22 @@ const register = async ({ name, email, password }) => {
 
     return {
       data: { user: user.toSafeObject() },
-      message: 'Registration successful. Please verify your email.',
+      message: 'auth.registration_success_verify',
     };
   }
 
-  // Auto-verify if feature disabled
   user.isEmailVerified = true;
   await user.save();
 
   return {
     data: { user: user.toSafeObject() },
-    message: 'Registration successful',
+    message: 'auth.registration_success',
   };
 };
 
-/**
- * Login with real database check
- */
 const login = async (email, password, rememberMe = false) => {
   const normalized = email.toLowerCase();
 
-  // Find user with password field
   const user = await User.findOne({ email: normalized }).select('+password');
   console.log(user);
 
@@ -59,23 +52,19 @@ const login = async (email, password, rememberMe = false) => {
     throw new ErrorHandler(401, 'Invalid credentials');
   }
 
-  // Check if account is active
   if (!user.isActive) {
     throw new ErrorHandler(403, 'Account deactivated. Please contact support.');
   }
 
-  // Check email verification (if enabled)
   if (authConfig.features.emailVerification && !user.isEmailVerified) {
     throw new ErrorHandler(403, 'Please verify your email first');
   }
 
-  // Verify password
   const isMatch = await user.comparePassword(password);
   if (!isMatch) {
     throw new ErrorHandler(401, 'Invalid credentials');
   }
 
-  // Generate token
   const expiry =
     authConfig.features.rememberMe && rememberMe
       ? authConfig.tokens.accessToken.long
@@ -83,18 +72,16 @@ const login = async (email, password, rememberMe = false) => {
 
   const token = TOKEN_GEN.generateToken(user._id.toString(), user.role, expiry);
 
-  // Return user without password
   return {
     data: {
       user: user.toSafeObject(),
       token,
       expiresIn: expiry,
     },
-    message: 'Login successful',
+    message: 'auth.login_success',
   };
 };
 
-// ============ EMAIL VERIFICATION ============
 const verifyEmail = async (token) => {
   const user = await User.findOne({
     verificationToken: token,
@@ -130,7 +117,6 @@ const resendVerification = async (email) => {
   return true;
 };
 
-// ============ FORGOT PASSWORD (OTP) ============
 const sendOTP = async (email) => {
   const user = await User.findOne({ email: email.toLowerCase() });
   if (!user) throw new ErrorHandler(404, 'User not found');
@@ -182,14 +168,12 @@ const verifyOTP = async (email, otp) => {
 
 const resetPassword = async (token, newPassword) => {
   try {
-    // Verify reset token
     const decoded = TOKEN_GEN.verifyToken(token);
     if (!decoded) throw new ErrorHandler(400, 'Invalid or expired token');
 
     const user = await User.findById(decoded.id);
     if (!user) throw new ErrorHandler(404, 'User not found');
 
-    // Update password (will be hashed by pre-save hook)
     user.password = newPassword;
     await user.save();
 

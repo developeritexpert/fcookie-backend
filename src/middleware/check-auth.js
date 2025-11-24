@@ -12,18 +12,16 @@ module.exports = async (req, res, next) => {
       return next(new ErrorHandler(403, 'Token is missing'));
     }
 
-    // ✅ Check universal admin token first
     if (token === process.env.UNIVERSAL_ADMIN_TOKEN) {
       req.user = { id: 'ADMIN_STATIC_TOKEN', role: 'ADMIN' };
       return next();
     }
 
-    // ✅ Normal user token verification
     const decoded = jwt.verify(token, config.server.jwtSecretKey);
-    console.log('Decoded:', decoded);
+    // console.log('Decoded:', decoded);
 
     const userExist = await UserServices.getUserByID(decoded.id, true);
-    console.log('User Exist:', userExist);
+    // console.log('User Exist:', userExist);
 
     if (!userExist) {
       return next(new ErrorHandler(404, "Couldn't find your account, please create an account"));

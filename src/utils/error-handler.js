@@ -1,95 +1,71 @@
 const { isEmpty } = require('./utils');
 
-const ERROR_CONTACT_SUPPORT = ', Please Try again later or contact support if the issue persists.';
+const ERROR_KEYS = {
+  400: 'errors.bad_request',
+  401: 'errors.unauthorized',
+  403: 'errors.forbidden',
+  404: 'errors.not_found',
+  405: 'errors.method_not_allowed',
+  408: 'errors.request_timeout',
+  409: 'errors.conflict',
+  410: 'errors.gone',
+  413: 'errors.payload_too_large',
+  415: 'errors.unsupported_media_type',
+  422: 'errors.unprocessable_entity',
+  429: 'errors.too_many_requests',
+  500: 'errors.internal_server_error',
+  502: 'errors.bad_gateway',
+  503: 'errors.service_unavailable',
 
-const HTTP_ERRORS = {
-  ERROR_400: 'Bad Request',
-  ERROR_401: 'Unauthorized',
-  ERROR_403: 'Forbidden',
-  ERROR_404: 'Not Found',
-  ERROR_405: 'Method Not Allowed',
-  ERROR_406: 'Not Acceptable',
-  ERROR_408: 'Request Timeout',
-  ERROR_409: 'Conflict',
-  ERROR_410: 'Gone',
-  ERROR_413: 'Payload Too Large',
-  ERROR_415: 'Unsupported Media Type',
-  ERROR_422: 'Unprocessable Entity',
-  ERROR_429: 'Too Many Requests',
-  ERROR_500: 'Internal Server Error',
-  ERROR_502: 'Bad Gateway',
-  ERROR_503: 'Service Unavailable',
-  GENERAL_ERROR: 'General error',
-  NOT_FOUND: 'Resource not found',
-  UNAUTHORIZED: 'Unauthorized access',
-  FORBIDDEN: 'Access forbidden',
-  VALIDATION_ERROR: 'Validation failed',
-  DUPLICATE_ERROR: 'Resource already exists',
-  INVALID_CREDENTIALS: 'Invalid credentials provided',
-  EMAIL_NOT_VERIFIED: 'Email not verified',
-  RESET_PASSWORD_EXPIRED: 'Reset password link expired',
-  INVALID_OTP: 'Invalid OTP provided',
-  BAD_REQUEST: 'Bad request',
-  NOT_ALLOWED: 'Operation not allowed',
-  DEPENDENCY_ERROR: 'Related dependency error',
-  PAYMENT_REQUIRED: 'Payment required',
-  QUOTA_EXCEEDED: 'Quota exceeded',
-  TOO_LARGE: 'Entity too large',
-  TOO_MANY_REQUESTS: 'Too many requests',
-  SERVICE_UNAVAILABLE: 'Service currently unavailable',
-  ERROR_TIMEOUT:
-    'Slow internet connection or Server is currently not responding' + ERROR_CONTACT_SUPPORT,
-  ERROR_UNKNOWN_HOST: 'Cannot establish a connection to the server, please try again.',
+  INVALID_CREDENTIALS: 'errors.invalid_credentials',
+  EMAIL_NOT_VERIFIED: 'errors.email_not_verified',
+  INVALID_OTP: 'errors.invalid_otp',
+  RESET_PASSWORD_EXPIRED: 'errors.reset_password_expired',
 };
 
 class ErrorHandler extends Error {
-  constructor(statusCode, customMsg = '') {
+  constructor(statusCode, messageKey = '') {
     super();
-    if (!isEmpty(customMsg)) {
-      this.statusCode = isEmpty(statusCode) ? 406 : statusCode; // 406 will be used for Custom errors
-      this.message = customMsg;
-    } else {
-      this.statusCode = statusCode;
-      this.message = getErrorDesc(statusCode);
+
+    this.statusCode = statusCode || 500;
+    this.messageKey = messageKey || ERROR_KEYS[statusCode] || ERROR_KEYS[500];
+  }
+
+  static from(err) {
+    if (err?.code === 11000) {
+      const field = Object.keys(err.keyValue || {})[0] || 'field';
+      return new ErrorHandler(409, `errors.${field}_already_exists`);
     }
+
+    if (err?.name === 'ValidationError') {
+      const field = Object.keys(err.errors || {})[0];
+      return new ErrorHandler(422, `errors.${field}_validation_failed`);
+    }
+
+    if (err?.name === 'CastError') {
+      return new ErrorHandler(400, `errors.invalid_${err.path}`);
+    }
+
+    if (err instanceof ErrorHandler) {
+      return err;
+    }
+
+    return new ErrorHandler(500, ERROR_KEYS[500]);
   }
 }
+
 class ErrorHandlerWithDetails extends Error {
-  constructor(statusCode, message, code = 'ERROR', email = null) {
-    super(message);
-    this.statusCode = statusCode;
+  constructor(statusCode, messageKey = '', code = 'ERROR', email = null) {
+    super();
+    this.statusCode = statusCode || 500;
+    this.messageKey = messageKey || ERROR_KEYS[statusCode] || ERROR_KEYS[500];
     this.code = code;
     this.email = email;
   }
 }
 
-function getErrorDesc(statusCode) {
-  switch (statusCode) {
-    case 400:
-      return HTTP_ERRORS.ERROR_400;
-    case 401:
-      return HTTP_ERRORS.ERROR_401;
-    case 403:
-      return HTTP_ERRORS.ERROR_403;
-    case 404:
-      return HTTP_ERRORS.ERROR_404;
-    case 405:
-      return HTTP_ERRORS.ERROR_405;
-    case 410:
-      return HTTP_ERRORS.ERROR_410;
-    case 429:
-      return HTTP_ERRORS.ERROR_429;
-    case 500:
-      return HTTP_ERRORS.ERROR_500;
-    case 503:
-      return HTTP_ERRORS.ERROR_503;
-    default:
-      return HTTP_ERRORS.ERROR_500;
-  }
-}
-
 module.exports = {
-  HTTP_ERRORS,
+  ERROR_KEYS,
   ErrorHandler,
   ErrorHandlerWithDetails,
 };

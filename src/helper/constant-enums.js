@@ -4,33 +4,58 @@ const USER_ROLE = {
   ADMIN: 'ADMIN',
 };
 const STATUS = {
-  PENDING: 'PENDING',
-  ACTIVE: 'ACTIVE',
-  PAUSED: 'PAUSED',
-  REJECTED: 'REJECTED',
-};
-const PRODUCT_STATUS = {
-  ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE',
-};
-const BRAND_STATUS = {
   ACTIVE: 'ACTIVE',
-  INACTIVE: 'INACTIVE',
+  ARCHIVED: 'ARCHIVED',
 };
-const REVIEW_STATUS = {
-  ACTIVE: 'ACTIVE',
-  INACTIVE: 'INACTIVE',
+const VISIBILITY = {
+  PUBLIC: 'PUBLIC',
+  PRIVATE: 'PRIVATE',
+};
+
+const CURRENCY = {
+  USD: 'USD',
+  // EUR: 'EUR',
+  // GBP: 'GBP',
+  // JPY: 'JPY',
+  // AUD: 'AUD',
+  // CAD: 'CAD',
+  // CHF: 'CHF',
+  // CNY: 'CNY',
+  // SEK: 'SEK',
+  // NZD: 'NZD',
+};
+
+const GRADER = {
+  PSA: 'PSA',
+  BGS: 'BGS',
+  CGC: 'CGC',
+  SGC: 'SGC',
+  CGC_COMIC: 'CGC-COMIC',
+  CSG: 'CSG',
+  AGS: 'AGS',
+  GMA: 'GMA',
+  HGA: 'HGA',
+  BCCG: 'BCCG',
+  NONE: 'NONE',
+  OTHER: 'OTHER',
 };
 const LANGUAGE = {
   ENGLISH: 'ENGLISH',
   SPANISH: 'SPANISH',
 };
-
+const FILTER_TYPE = {
+  SINGLE: 'single',
+  MULTI: 'multi',
+  NUMBER: 'number',
+  TEXT: 'text',
+};
 module.exports = {
   USER_ROLE,
   STATUS,
   LANGUAGE,
-  PRODUCT_STATUS,
-  BRAND_STATUS,
-  REVIEW_STATUS,
+  GRADER,
+  FILTER_TYPE,
+  VISIBILITY,
+  CURRENCY,
 };
