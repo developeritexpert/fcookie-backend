@@ -96,6 +96,8 @@ const updateAsset = {
       quantity: Joi.number().integer().min(0).optional(),
 
       images: Joi.array().items(Joi.string().uri()).optional(),
+      existingImages: Joi.array().items(Joi.string().uri()).optional(),
+
       thumbnail_url: Joi.string().uri().optional().allow(''),
       video_url: Joi.string().uri().optional().allow(''),
 
