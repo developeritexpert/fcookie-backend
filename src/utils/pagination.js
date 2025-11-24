@@ -86,6 +86,49 @@ const buildFilterValueFilters = (query) => {
 
   return filters;
 };
+
+const buildAssetFilters = (query = {}) => {
+  const filters = {};
+
+  if (query.search) {
+    filters.$text = { $search: query.search };
+  }
+
+  if (query.categoryId) {
+    filters.categoryId = query.categoryId;
+  }
+
+  if (query.status) {
+    filters.status = query.status;
+  }
+
+  if (query.visibility) {
+    filters.visibility = query.visibility;
+  }
+
+  if (query.minPrice || query.maxPrice) {
+    filters.price = {};
+    if (query.minPrice) filters.price.$gte = Number(query.minPrice);
+    if (query.maxPrice) filters.price.$lte = Number(query.maxPrice);
+  }
+
+  if (query.filters) {
+    try {
+      const parsed = typeof query.filters === 'string'
+        ? JSON.parse(query.filters)
+        : query.filters;
+
+      if (Array.isArray(parsed) && parsed.length) {
+        filters.$and = parsed.map(f => ({
+          filters: { $elemMatch: { groupId: f.groupId, valueId: f.valueId } },
+        }));
+      }
+    } catch (_) {}
+  }
+
+  return filters;
+};
+
 module.exports = {
   getPaginationParams,
   getFinalPagination,
@@ -94,4 +137,5 @@ module.exports = {
   buildSetFilters,
   buildFilterGroupFilters,
   buildFilterValueFilters,
+  buildAssetFilters,
 };

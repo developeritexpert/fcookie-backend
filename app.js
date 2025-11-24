@@ -19,6 +19,7 @@ const categoryRouter = require('./src/routes/category/category.routes');
 const setRouter = require('./src/routes/set/set.route');
 const FilterGroupRouter = require('./src/routes/filter/filter-group.router');
 const FilterValueRouter = require('./src/routes/filter/filter-value.router');
+const assetRouter = require('./src/routes/asset/asset.route');
 
 const app = express();
 
@@ -66,6 +67,7 @@ app.use(`/${config.server.route}/category`, categoryRouter);
 app.use(`/${config.server.route}/set`, setRouter);
 app.use(`/${config.server.route}/filter-groups`, FilterGroupRouter);
 app.use(`/${config.server.route}/filter-values`, FilterValueRouter);
+app.use(`/${config.server.route}/asset`, assetRouter);
 
 // --------------------------------------------------
 // 404 Handler

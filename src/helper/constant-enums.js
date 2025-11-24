@@ -8,6 +8,23 @@ const STATUS = {
   ACTIVE: 'ACTIVE',
   ARCHIVED: 'ARCHIVED',
 };
+const VISIBILITY = {
+  PUBLIC: 'PUBLIC',
+  PRIVATE: 'PRIVATE',
+};
+
+const CURRENCY = {
+  USD: 'USD',
+  // EUR: 'EUR',
+  // GBP: 'GBP',
+  // JPY: 'JPY',
+  // AUD: 'AUD',
+  // CAD: 'CAD',
+  // CHF: 'CHF',
+  // CNY: 'CNY',
+  // SEK: 'SEK',
+  // NZD: 'NZD',
+};
 
 const GRADER = {
   PSA: 'PSA',
@@ -39,4 +56,6 @@ module.exports = {
   LANGUAGE,
   GRADER,
   FILTER_TYPE,
+  VISIBILITY,
+  CURRENCY,
 };
