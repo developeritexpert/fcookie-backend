@@ -169,5 +169,33 @@
     "asset_quota_limit_reached": "Limite de quota atteinte",
     "duplicate": "Actif dupliqué détecté",
     "invalid_asset_metadata": "Métadonnées d'actif invalides"
+  },
+  "spin": {
+    "insufficient_tokens": "Jetons insuffisants",
+    "spin_success": "Tour réussi",
+    "no_rewards_available": "Aucune récompense disponible",
+    "reward_claimed": "Récompense réclamée avec succès",
+    "reward_not_found": "Récompense introuvable",
+    "spin_history_fetched": "Historique des tours récupéré avec succès",
+    "spin_reward_created": "Récompense de tour créée avec succès",
+    "spin_reward_updated": "Récompense de tour mise à jour avec succès",
+    "spin_reward_deleted": "Récompense de tour supprimée avec succès",
+    "user_spin_tokens_updated": "Jetons de tour de l'utilisateur mis à jour avec succès",
+    "daily_limit_reached": "Limite quotidienne atteinte", 
+    "monthly_limit_reached": "Limite mensuelle atteinte",
+    "invalid_spin_request": "Requête de tour invalide",
+    "spin_reward_inactive": "Récompense de tour désactivée",
+    "spin_reward_already_exists": "Récompense de tour existe déjà",
+    "spin_reward_not_active": "Récompense de tour non active",
+    "user_not_found": "Utilisateur introuvable",
+    "spin_token_update_failed": "Échec de la mise à jour des jetons de tour de l'utilisateur",
+    "spin_reward_creation_failed": "Échec de la création de la récompense de tour",
+    "spin_reward_update_failed": "Échec de la mise à jour de la récompense de tour",
+    "spin_reward_deletion_failed": "Échec de la suppression de la récompense de tour",
+    "spin_history_fetch_failed": "Échec de la récupération de l'historique des tours",
+    "rewards_fetch_success": "Récompenses récupérées avec succès",
+    "rewards_fetch_failed": "Échec de la récupération des récompenses",
+    "spin_attempt_recorded": "Essai de tour enregistré avec succès",
+    "spin_attempt_record_failed": "Échec de l'enregistrement de l'essai de tour"
   }
 }

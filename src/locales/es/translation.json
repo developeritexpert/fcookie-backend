@@ -170,5 +170,33 @@
     "asset_quota_limit_reached": "Se alcanzó el límite de almacenamiento",
     "duplicate": "Activo duplicado detectado",
     "invalid_asset_metadata": "Metadatos del activo no válidos"
+  },
+  "spin": {
+    "insufficient_tokens": "Fichas insuficientes",
+    "reward_not_found": "Recompensa no encontrada",
+    "spin_success": "Giro realizado con éxito",
+    "reward_claimed": "Recompensa reclamada con éxito",
+    "no_rewards_available": "No hay recompensas disponibles",
+    "spin_history_fetched": "Historial de giros obtenido con éxito",
+    "spin_reward_created": "Recompensa de giro creada con éxito",
+    "spin_reward_updated": "Recompensa de giro actualizada con éxito",
+    "spin_reward_deleted": "Recompensa de giro eliminada con éxito",
+    "user_spin_tokens_updated": "Tokens de giro del usuario actualizados con éxito",
+    "daily_limit_reached": "Límite diario alcanzado",
+    "monthly_limit_reached": "Límite mensual alcanzado",
+    "invalid_spin_request": "Solicitud de giro no válida",
+    "spin_reward_inactive": "Recompensa de giro desactivada",
+    "spin_reward_already_exists": "Recompensa de giro ya existe",
+    "spin_reward_not_active": "Recompensa de giro no activa",
+    "user_not_found": "Usuario no encontrado",
+    "spin_token_update_failed": "Error al actualizar los tokens de giro del usuario",
+    "spin_reward_creation_failed": "Error al crear la recompensa de giro",
+    "spin_reward_update_failed": "Error al actualizar la recompensa de giro",
+    "spin_reward_deletion_failed": "Error al eliminar la recompensa de giro",
+    "spin_history_fetch_failed": "Error al obtener el historial de giros",
+    "rewards_fetch_success": "Recompensas obtenidas con éxito",
+    "rewards_fetch_failed": "Error al obtener las recompensas",
+    "spin_attempt_recorded": "Intento de giro registrado con éxito",
+    "spin_attempt_record_failed": "Error al registrar el intento de giro"
   }
 }

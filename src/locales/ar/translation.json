@@ -171,5 +171,33 @@
     "asset_quota_limit_reached": "تم الوصول إلى حد حصة تخزين الأصول",
     "duplicate": "تم الكشف عن أصل مكرر",
     "invalid_asset_metadata": "بيانات وصفية للأصل غير صالحة"
+  },
+  "spin": {
+    "insufficient_tokens": "رموز الدوران غير كافية",
+    "reward_not_found": "المكافأة غير موجودة",
+    "spin_success": "تمت عملية الدوران بنجاح",
+    "reward_claimed": "تم المطالبة بالمكافأة بنجاح",
+    "no_rewards_available": "لا توجد مكافآت متاحة للدوران",
+    "spin_history_fetched": "تم جلب سجل الدوران بنجاح",
+    "spin_reward_created": "تم إنشاء مكافأة الدوران بنجاح",
+    "spin_reward_updated": "تم تحديث مكافأة الدوران بنجاح",
+    "spin_reward_deleted": "تم حذف مكافأة الدوران بنجاح",
+    "user_spin_tokens_updated": "تم تحديث رموز الدوران للمستخدم بنجاح",
+    "daily_limit_reached": "تم الوصول إلى الحد اليومي للدوران",
+    "monthly_limit_reached": "تم الوصول إلى الحد الشهري للدوران",
+    "invalid_spin_request": "طلب دوران غير صالح",
+    "spin_reward_inactive": "مكافأة الدوران غير نشطة",
+    "spin_reward_already_exists": "مكافأة الدوران موجودة بالفعل",
+    "spin_reward_not_active": "مكافأة الدوران غير نشطة",
+    "user_not_found": "المستخدم غير موجود",
+    "spin_token_update_failed": "فشل في تحديث رموز الدوران للمستخدم",
+    "spin_reward_creation_failed": "فشل في إنشاء مكافأة الدوران",
+    "spin_reward_update_failed": "فشل في تحديث مكافأة الدوران",
+    "spin_reward_deletion_failed": "فشل في حذف مكافأة الدوران",
+    "spin_history_fetch_failed": "فشل في جلب سجل الدوران",
+    "rewards_fetch_success": "تم جلب المكافآت بنجاح",
+    "rewards_fetch_failed": "فشل في جلب المكافآت",
+    "spin_attempt_recorded": "تم تسجيل محاولة الدوران بنجاح",
+    "spin_attempt_record_failed": "فشل في تسجيل محاولة الدوران"
   }
 }

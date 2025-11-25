@@ -169,5 +169,33 @@
     "asset_quota_limit_reached": "Asset-Speichergrenze erreicht",
     "duplicate": "Doppeltes Asset entdeckt",
     "invalid_asset_metadata": "Ungültige Asset-Metadaten"
+  },
+  "spin": {
+    "insufficient_tokens": "Nicht genügend Tokens",
+    "reward_not_found": "Reward nicht gefunden",
+    "spin_success": "Spin erfolgreich durchgeführt",
+    "reward_claimed": "Reward erfolgreich eingesammelt",
+    "no_rewards_available": "Keine Rewards verfügbar",
+    "spin_history_fetched": "Spin-Historie erfolgreich abgerufen",
+    "spin_reward_created": "Spin-Reward erfolgreich erstellt",
+    "spin_reward_updated": "Spin-Reward erfolgreich aktualisiert",
+    "spin_reward_deleted": "Spin-Reward erfolgreich gelöscht",
+    "user_spin_tokens_updated": "Tokens für den Benutzer erfolgreich aktualisiert",
+    "daily_limit_reached": "Tagesgrenze erreicht",
+    "monthly_limit_reached": "Monatsgrenze erreicht",
+    "invalid_spin_request": "Ungültige Spin-Anfrage",
+    "spin_reward_inactive": "Spin-Reward deaktiviert",
+    "spin_reward_already_exists": "Spin-Reward existiert bereits",
+    "spin_reward_not_active": "Spin-Reward deaktiviert",
+    "user_not_found": "Benutzer nicht gefunden",
+    "spin_token_update_failed": "Tokens für den Benutzer aktualisieren fehlgeschlagen",
+    "spin_reward_creation_failed": "Spin-Reward erstellen fehlgeschlagen",
+    "spin_reward_update_failed": "Spin-Reward aktualisieren fehlgeschlagen",
+    "spin_reward_deletion_failed": "Spin-Reward löschen fehlgeschlagen",
+    "spin_history_fetch_failed": "Spin-Historie abrufen fehlgeschlagen",
+    "rewards_fetch_success": "Rewards erfolgreich abgerufen",
+    "rewards_fetch_failed": "Rewards abrufen fehlgeschlagen",
+    "spin_attempt_recorded": "Spin-Versuch erfolgreich aufgenommen",
+    "spin_attempt_record_failed": "Spin-Versuch aufzeichnen fehlgeschlagen"
   }
 }

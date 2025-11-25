@@ -20,6 +20,7 @@ const setRouter = require('./src/routes/set/set.route');
 const FilterGroupRouter = require('./src/routes/filter/filter-group.router');
 const FilterValueRouter = require('./src/routes/filter/filter-value.router');
 const assetRouter = require('./src/routes/asset/asset.route');
+const spinRouter = require('./src/routes/spin/spin.route');
 
 const app = express();
 
@@ -68,6 +69,7 @@ app.use(`/${config.server.route}/set`, setRouter);
 app.use(`/${config.server.route}/filter-groups`, FilterGroupRouter);
 app.use(`/${config.server.route}/filter-values`, FilterValueRouter);
 app.use(`/${config.server.route}/asset`, assetRouter);
+app.use(`/${config.server.route}/spin`, spinRouter);
 
 // --------------------------------------------------
 // 404 Handler

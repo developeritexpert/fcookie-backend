@@ -170,5 +170,33 @@
     "asset_quota_limit_reached": "Asset quota limit reached",
     "duplicate": "Duplicate asset detected",
     "invalid_asset_metadata": "Invalid asset metadata"
+  },
+  "spin": {
+    "insufficient_tokens": "Insufficient tokens",
+    "reward_not_found": "Reward not found",
+    "spin_success": "Spin completed successfully",
+    "reward_claimed": "Reward claimed successfully",
+    "no_rewards_available": "No rewards available",
+    "spin_history_fetched": "Spin history fetched successfully",
+    "spin_reward_created": "Spin reward created successfully",
+    "spin_reward_updated": "Spin reward updated successfully",
+    "spin_reward_deleted": "Spin reward deleted successfully",
+    "user_spin_tokens_updated": "User spin tokens updated successfully",
+    "daily_limit_reached": "Daily limit reached",
+    "monthly_limit_reached": "Monthly limit reached",
+    "invalid_spin_request": "Invalid spin request",
+    "spin_reward_inactive": "Spin reward is inactive",
+    "spin_reward_already_exists": "Spin reward already exists",
+    "spin_reward_not_active": "Spin reward is not active",
+    "user_not_found": "User not found",
+    "spin_token_update_failed": "Failed to update spin tokens for user",
+    "spin_reward_creation_failed": "Failed to create spin reward",
+    "spin_reward_update_failed": "Failed to update spin reward",
+    "spin_reward_deletion_failed": "Failed to delete spin reward",
+    "spin_history_fetch_failed": "Failed to fetch spin history",
+    "rewards_fetch_success": "Rewards fetched successfully",
+    "rewards_fetch_failed": "Failed to fetch rewards", 
+    "spin_attempt_recorded": "Spin attempt recorded successfully",
+    "spin_attempt_record_failed": "Failed to record spin attempt"
   }
 }
