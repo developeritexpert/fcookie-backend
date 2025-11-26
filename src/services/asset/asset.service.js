@@ -1,8 +1,11 @@
 const Asset = require('../../models/asset.model');
+
 const { ErrorHandler } = require('../../utils/error-handler');
 const { uploadMultiple, uploadBuffer } = require('../../utils/cloudinary');
 const mongoose = require('mongoose');
 const { getPaginationParams, buildAssetFilters } = require('../../utils/pagination');
+const { mergeImages } = require('../../utils/merge-images');
+const { validateFiltersArray } = require('../filter/filter-validator.service');
 
 
 const createAsset = async (payload, files = {}) => {
@@ -14,6 +17,9 @@ const createAsset = async (payload, files = {}) => {
       }
     }
 
+    if (payload.filters && Array.isArray(payload.filters)) {
+        await validateFiltersArray(payload.filters);
+    }
     const uploadedImageUrls = [];
     if (files.images && files.images.length) {
       const res = await uploadMultiple(files.images, 'assets/images');
@@ -97,15 +103,13 @@ const getAssetById = async (id) => {
 const updateAsset = async (id, payload, files = {}) => {
   try {
     if (typeof payload.filters === 'string') {
-      try {
-        payload.filters = JSON.parse(payload.filters);
-      } catch (e) {}
+      try { payload.filters = JSON.parse(payload.filters); } catch {}
     }
 
-    const uploadedImageUrls = [];
+    let uploadedImageUrls = [];
     if (files.images && files.images.length) {
-      const res = await uploadMultiple(files.images, 'assets/images');
-      for (const r of res) uploadedImageUrls.push(r.secure_url);
+      const uploaded = await uploadMultiple(files.images, 'assets/images');
+      uploadedImageUrls = uploaded.map((u) => u.secure_url);
     }
 
     if (files.thumbnail && files.thumbnail.length) {
@@ -124,16 +128,9 @@ const updateAsset = async (id, payload, files = {}) => {
       payload.video_url = r.secure_url;
     }
 
-    if (!payload.images) payload.images = [];
-    if (typeof payload.images === 'string' && payload.images.length) {
-      try {
-        payload.images = JSON.parse(payload.images);
-      } catch (e) {
-        payload.images = payload.images.split(',').map((s) => s.trim()).filter(Boolean);
-      }
-    }
+    payload.images = mergeImages(payload.existingImages, uploadedImageUrls);
 
-    payload.images = Array.isArray(payload.images) ? payload.images.concat(uploadedImageUrls) : uploadedImageUrls;
+    delete payload.existingImages;
 
     const updated = await Asset.findByIdAndUpdate(id, payload, {
       new: true,
@@ -141,11 +138,11 @@ const updateAsset = async (id, payload, files = {}) => {
     });
 
     if (!updated) throw new ErrorHandler(404, 'asset.not_found');
+
     return updated;
+
   } catch (err) {
-    if (err.code === 11000) {
-      throw new ErrorHandler(409, 'asset.duplicate');
-    }
+    if (err.code === 11000) throw new ErrorHandler(409, 'asset.duplicate');
     if (err instanceof ErrorHandler) throw err;
     throw new ErrorHandler(500, err.message);
   }

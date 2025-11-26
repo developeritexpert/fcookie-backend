@@ -318,6 +318,20 @@ const getDateRange = (filter, date) => {
 
 const generateMongoId = () => new mongoose.Types.ObjectId();
 
+function pickWeighted(items) {
+  if (!Array.isArray(items) || items.length === 0) return null;
+  const total = items.reduce((s, it) => s + Number(it.weight || 0), 0);
+  if (total <= 0) return null;
+
+  let r = Math.random() * total;
+  for (const it of items) {
+    const w = Number(it.weight || 0);
+    if (r < w) return it;
+    r -= w;
+  }
+  return items[items.length - 1];
+}
+
 module.exports = {
   enableDisableLogs,
   isEmpty,
@@ -352,4 +366,5 @@ module.exports = {
   sendResponse,
   getDateRange,
   generateMongoId,
+  pickWeighted,
 };
