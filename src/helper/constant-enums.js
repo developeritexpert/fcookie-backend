@@ -26,6 +26,13 @@ const CURRENCY = {
   // NZD: 'NZD',
 };
 
+const SPIN_REWARD_TYPE = {
+  CREDITS: 'CREDITS',
+  ITEM: 'ITEM',
+  TOKEN: 'TOKEN',
+  COUPON: 'COUPON',
+};
+
 const GRADER = {
   PSA: 'PSA',
   BGS: 'BGS',
@@ -58,4 +65,5 @@ module.exports = {
   FILTER_TYPE,
   VISIBILITY,
   CURRENCY,
+  SPIN_REWARD_TYPE,
 };

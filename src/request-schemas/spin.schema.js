@@ -1,5 +1,6 @@
 const { Joi, Segments } = require('celebrate');
 const mongoose = require('mongoose');
+const CONSTANT_ENUM = require('../helper/constant-enums');
 
 const objectId = Joi.string().custom((value, helpers) => {
   if (!mongoose.Types.ObjectId.isValid(value)) return helpers.error('any.invalid');
@@ -9,7 +10,7 @@ const objectId = Joi.string().custom((value, helpers) => {
 const createReward = {
   [Segments.BODY]: Joi.object().keys({
     name: Joi.string().min(1).max(200).required(),
-    type: Joi.string().valid('CREDITS','ITEM','TOKEN','COUPON').required(),
+    type: Joi.string().valid(...Object.values(CONSTANT_ENUM.SPIN_REWARD_TYPE)).required(),
     value: Joi.any().optional().allow(null),
     weight: Joi.number().positive().required(),
     wheel_position: Joi.number().integer().optional(),
@@ -26,7 +27,7 @@ const updateReward = {
   }),
   [Segments.BODY]: Joi.object().keys({
     name: Joi.string().min(1).max(200).optional(),
-    type: Joi.string().valid('CREDITS','ITEM','TOKEN','COUPON').optional(),
+    type: Joi.string().valid(...Object.values(CONSTANT_ENUM.SPIN_REWARD_TYPE)).optional(),
     value: Joi.any().optional().allow(null),
     weight: Joi.number().positive().optional(),
     wheel_position: Joi.number().integer().optional(),
@@ -38,7 +39,7 @@ const updateReward = {
 };
 
 const spinNow = {
-  [Segments.BODY]: Joi.object().keys({}).unknown(true) 
+  [Segments.BODY]: Joi.object().keys({}).unknown(true)
 };
 
 module.exports = {

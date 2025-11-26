@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
+const CONSTANT_ENUM = require('../helper/constant-enums');
 
 const SpinRewardSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
-    type: { type: String, enum: ['CREDITS','ITEM','TOKEN','COUPON'], default: 'CREDITS' },
+    type: { type: String, enum: Object.values(CONSTANT_ENUM.SPIN_REWARD_TYPE), default: CONSTANT_ENUM.SPIN_REWARD_TYPE.CREDITS },
     value: { type: mongoose.Schema.Types.Mixed, default: null },
 
     weight: { type: Number, required: true, default: 1 },

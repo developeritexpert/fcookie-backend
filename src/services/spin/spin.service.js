@@ -4,11 +4,12 @@ const SpinHistory = require('../../models/spin-history.model');
 const { User } = require('../../models/user.model');
 const { ErrorHandler } = require('../../utils/error-handler');
 const { pickWeighted } = require('../../utils/utils');
+const CONSTANT_ENUM = require('../../helper/constant-enums');
 
 function isSameDay(d1, d2) {
   return d1.getUTCFullYear() === d2.getUTCFullYear() &&
-         d1.getUTCMonth() === d2.getUTCMonth() &&
-         d1.getUTCDate() === d2.getUTCDate();
+    d1.getUTCMonth() === d2.getUTCMonth() &&
+    d1.getUTCDate() === d2.getUTCDate();
 }
 
 async function refreshRewardCountersIfNeeded(reward) {
@@ -55,11 +56,11 @@ async function spinForUser(userId, meta = {}) {
     let credits_awarded = 0;
     const details = { reward_id: chosen._id, reward_name: chosen.name };
 
-    if (String(chosen.type) === 'CREDITS') {
+    if (String(chosen.type) === CONSTANT_ENUM.SPIN_REWARD_TYPE.CREDITS) {
       credits_awarded = Number(chosen.value) || 0;
       user.credits = (user.credits || 0) + credits_awarded;
       details.credits_awarded = credits_awarded;
-    } else if (String(chosen.type) === 'TOKEN') {
+    } else if (String(chosen.type) === CONSTANT_ENUM.SPIN_REWARD_TYPE.TOKEN) {
       user.tokens = (user.tokens || 0) + (Number(chosen.value) || 0);
       details.tokens_awarded = Number(chosen.value) || 0;
     } else {
