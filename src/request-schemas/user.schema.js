@@ -1,16 +1,21 @@
 const { Joi, Segments } = require('celebrate');
 const CONSTANT_ENUM = require('../helper/constant-enums.js');
 
+const objectIdValidator = Joi.string().hex().length(24).messages({
+  'string.hex': 'Invalid ID format',
+  'string.length': 'Invalid ID length',
+  'any.required': 'ID is required',
+});
+
 const createUserByAdmin = {
   [Segments.BODY]: Joi.object().keys({
-    email: Joi.string().email().required().messages({
+    email: Joi.string().email().lowercase().trim().required().messages({
       'string.email': 'Email must be a valid email address',
       'any.required': 'Email is required',
     }),
 
-    name: Joi.string().min(2).max(50).required().messages({
+    name: Joi.string().min(2).max(50).trim().required().messages({
       'string.base': 'Name must be a string',
-      'string.empty': 'Name is required',
       'any.required': 'Name is required',
     }),
 
@@ -24,175 +29,50 @@ const createUserByAdmin = {
       'any.required': 'Confirm password is required',
     }),
 
-    companyName: Joi.string().required().messages({
-      'any.required': 'Company name is required',
+    phoneNumber: Joi.string().trim().optional().allow('').messages({
+      'string.base': 'Phone number must be a string',
     }),
 
-    phoneNumber: Joi.string().required().messages({
-      'any.required': 'Phone number is required',
-    }),
-
-    // Address object validation
-    address: Joi.object({
-      full_address: Joi.string().required().messages({
-        'any.required': 'Full address is required',
-      }),
-      street: Joi.string().required().messages({
-        'any.required': 'Street address is required',
-      }),
-      city: Joi.string().required().messages({
-        'any.required': 'City is required',
-      }),
-      state: Joi.string().length(2).uppercase().required().messages({
-        'string.length': 'State must be a 2-letter code',
-        'any.required': 'State is required',
-      }),
-      zip_code: Joi.string()
-        .pattern(/^\d{5}(-\d{4})?$/)
-        .required()
-        .messages({
-          'string.pattern.base': 'ZIP code must be in format 12345 or 12345-6789',
-          'any.required': 'ZIP code is required',
-        }),
-      coordinates: Joi.object({
-        lat: Joi.number().min(-90).max(90).optional(),
-        lng: Joi.number().min(-180).max(180).optional(),
-      }).optional(),
-      place_id: Joi.string().optional(),
-    })
-      .required()
-      .messages({
-        'any.required': 'Address information is required',
-      }),
+    avatar: Joi.string().optional().allow(''),
 
     role: Joi.string()
-      .valid(CONSTANT_ENUM.USER_ROLE.USER)
-      .default(CONSTANT_ENUM.USER_ROLE.USER)
-      .messages({
-        'any.only': 'Role must be USER',
-      }),
+      .valid(...Object.values(CONSTANT_ENUM.USER_ROLE))
+      .default(CONSTANT_ENUM.USER_ROLE.USER),
   }),
 };
 
 const getUserById = {
-  [Segments.BODY]: Joi.object().keys({
-    userId: Joi.string().required().messages({
-      'any.required': 'USER id is required',
-    }),
+  [Segments.PARAMS]: Joi.object().keys({
+    userId: objectIdValidator.required(),
   }),
 };
 
 const updateUser = {
   [Segments.BODY]: Joi.object().keys({
-    email: Joi.string().email().required().messages({
-      'string.email': 'Email must be a valid email address',
-      'any.required': 'Email is required',
-    }),
+    email: Joi.string().email().lowercase().trim().optional(),
+    name: Joi.string().min(2).max(50).trim().optional(),
+    phoneNumber: Joi.string().trim().optional().allow(''),
+    avatar: Joi.string().optional().allow(''),
 
-    name: Joi.string().min(2).max(50).required().messages({
-      'string.base': 'Name must be a string',
-      'string.empty': 'Name is required',
-      'any.required': 'Name is required',
-    }),
-
-    password: Joi.string().min(6).optional().empty('').messages({
-      'string.min': 'Password must be at least 6 characters',
-    }),
-
+    password: Joi.string().min(6).optional(),
     confirmPassword: Joi.when('password', {
       is: Joi.exist(),
       then: Joi.string().valid(Joi.ref('password')).required().messages({
         'any.only': 'Confirm password does not match password',
-        'any.required': 'Confirm password is required when updating password',
+        'any.required': 'Confirm password is required',
       }),
-      otherwise: Joi.string().optional().empty(''),
+      otherwise: Joi.forbidden(),
     }),
 
-    companyName: Joi.string().required().messages({
-      'any.required': 'Company name is required',
-    }),
 
-    phoneNumber: Joi.string().required().messages({
-      'any.required': 'Phone number is required',
-    }),
-
-    // Address object validation (optional for updates)
-    address: Joi.object({
-      full_address: Joi.string().optional(),
-      street: Joi.string().optional(),
-      city: Joi.string().optional(),
-      state: Joi.string().length(2).uppercase().optional().messages({
-        'string.length': 'State must be a 2-letter code',
-      }),
-      zip_code: Joi.string()
-        .pattern(/^\d{5}(-\d{4})?$/)
-        .optional()
-        .messages({
-          'string.pattern.base': 'ZIP code must be in format 12345 or 12345-6789',
-        }),
-      coordinates: Joi.object({
-        lat: Joi.number().min(-90).max(90).optional(),
-        lng: Joi.number().min(-180).max(180).optional(),
-      }).optional(),
-      place_id: Joi.string().optional(),
-    }).optional(),
-
-    role: Joi.string()
-      .valid(CONSTANT_ENUM.USER_ROLE.USER)
-      .default(CONSTANT_ENUM.USER_ROLE.USER)
-      .messages({
-        'any.only': 'Role must be USER',
-      }),
-
-    avatar: Joi.string().optional(),
-  }),
+  }).min(1),
 };
 
-const acceptContract = {
-  [Segments.BODY]: Joi.object().keys({
-    version: Joi.string().optional().messages({
-      'any.required': 'Contract version is required',
-    }),
-    ipAddress: Joi.string().ip().optional().messages({
-      'string.ip': 'IP address must be a valid IP',
-    }),
-  }),
-  [Segments.PARAMS]: Joi.object().keys({
-    userId: Joi.string().required().messages({
-      'any.required': 'User ID is required',
-    }),
-  }),
-};
 
-const checkContract = {
-  [Segments.BODY]: Joi.object().keys({
-    version: Joi.string().required().messages({
-      'any.required': 'Contract version is required',
-    }),
-  }),
-  [Segments.PARAMS]: Joi.object().keys({
-    userId: Joi.string().required().messages({
-      'any.required': 'User ID is required',
-    }),
-  }),
-};
 
-const getContractStatus = {
-  [Segments.PARAMS]: Joi.object().keys({
-    userId: Joi.string().required().messages({
-      'any.required': 'User ID is required',
-    }),
-  }),
-  [Segments.QUERY]: Joi.object().keys({
-    version: Joi.string().optional(),
-  }),
-};
 
 module.exports = {
   createUserByAdmin,
   getUserById,
   updateUser,
-  acceptContract,
-  checkContract,
-  getContractStatus,
 };

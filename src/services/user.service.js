@@ -7,11 +7,9 @@ const getUserByEmail = (email, includePassword = false) => {
 };
 
 const getUserByID = async (userId, includePassword = false) => {
-  // console.log('userId',userId)
   const projection = includePassword ? {} : { password: 0 };
   const user = await User.findById(userId, projection).exec();
-  // console.log(user);
-  if (!user) throw new ErrorHandler(404, 'User not found');
+  if (!user) throw new ErrorHandler(404, 'user.not_found');
   return user;
 };
 
@@ -20,9 +18,19 @@ const listUsers = (filter = {}, opts = {}) => {
   return User.find(filter).limit(limit).skip(skip).select('-password').exec();
 };
 
-const updateUser = (id, data) =>
-  User.findByIdAndUpdate(id, data, { new: true }).select('-password').exec();
+const updateUser = (id, data) => {
+  const allowedFields = ['name', 'email', 'phoneNumber', 'avatar', 'password', 'address', 'companyName'];
+  const updates = {};
 
-const deleteUser = (id) => User.findByIdAndDelete(id).exec();
+  Object.keys(data).forEach(key => {
+    if (allowedFields.includes(key)) {
+      updates[key] = data[key];
+    }
+  });
+
+  return User.findByIdAndUpdate(id, updates, { new: true }).select('-password').exec();
+};
+
+const deleteUser = (id) => User.findByIdAndUpdate(id, { isDeleted: true }, { new: true }).exec();
 
 module.exports = { getUserByEmail, getUserByID, listUsers, updateUser, deleteUser };

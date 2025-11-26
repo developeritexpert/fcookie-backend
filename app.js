@@ -21,6 +21,7 @@ const FilterGroupRouter = require('./src/routes/filter/filter-group.router');
 const FilterValueRouter = require('./src/routes/filter/filter-value.router');
 const assetRouter = require('./src/routes/asset/asset.route');
 const spinRouter = require('./src/routes/spin/spin.route');
+const userRouter = require('./src/routes/user.routes');
 
 const app = express();
 
@@ -31,9 +32,6 @@ connect();
 if (!fs.existsSync('./uploads')) fs.mkdirSync('./uploads');
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// --------------------------------------------------
-// Core Middleware (Simplified)
-// --------------------------------------------------
 
 // I18n Middleware for Language Detection
 const i18nMiddleware = require('./src/middleware/i18n');
@@ -47,20 +45,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(compression());
 
-// Logger middleware (optional - can remove if too verbose)
 app.use(expressLogger);
 
-// --------------------------------------------------
-// Health Check Routes
-// --------------------------------------------------
+
 app.get('/', (req, res) => res.json({ message: req.t('home_page.welcome') }));
 app.get(`/${config.server.route}/`, (req, res) => res.json({ message: req.t('api_page.welcome') }));
 app.get(`/${config.server.route}/pingServer`, (req, res) => res.send(req.t('welcome_all')));
 app.get('/health', (req, res) => res.status(200).json({ message: req.t('health_page.healthy') }));
 
-// --------------------------------------------------
-// API Routes
-// --------------------------------------------------
+
 
 app.use(`/${config.server.route}/auth`, authRoutes);
 app.use(`/${config.server.route}/profile`, profileRouter);
@@ -70,6 +63,7 @@ app.use(`/${config.server.route}/filter-groups`, FilterGroupRouter);
 app.use(`/${config.server.route}/filter-values`, FilterValueRouter);
 app.use(`/${config.server.route}/asset`, assetRouter);
 app.use(`/${config.server.route}/spin`, spinRouter);
+app.use(`/${config.server.route}/user`, userRouter);
 
 // --------------------------------------------------
 // 404 Handler

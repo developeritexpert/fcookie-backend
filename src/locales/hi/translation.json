@@ -5,7 +5,16 @@
     "login_success": "लॉगिन सफल हुआ",
     "invalid_credentials": "ईमेल या पासवर्ड गलत है"
   },
-
+  "user": {
+    "update_success": "उपयोगकर्ता सफलतापूर्वक अपडेट किया गया",
+    "delete_success": "उपयोगकर्ता सफलतापूर्वक हटाई गई",
+    "not_found": "उपयोगकर्ता संसाधन नहीं मिला",
+    "update_failed": "उपयोगकर्ता सफलतापूर्वक बनाई गई",
+    "delete_failed": "उपयोगकर्ता सफलतापूर्वक हटाई गई",
+    "not_authorized": "आप अनधिकृत हैं",
+    "fetch_success": "उपयोगकर्ता सफलतापूर्वक प्राप्त किया गया",
+    "fetch_failed": "उपयोगकर्ता सफलतापूर्वक प्राप्त करने में विफल"
+  },
   "errors": {
     "bad_request": "गलत अनुरोध",
     "unauthorized": "अनधिकृत पहुँच",
@@ -23,13 +32,11 @@
     "bad_gateway": "गलत गेटवे",
     "service_unavailable": "सेवा उपलब्ध नहीं है",
     "you_are_unauthorized": "आप अनधिकृत हैं",
-
     "invalid_credentials": "अमान्य क्रेडेंशियल",
     "email_not_verified": "ईमेल सत्यापित नहीं है",
     "invalid_otp": "अमान्य OTP",
     "reset_password_expired": "रीसेट पासवर्ड लिंक समाप्त हो गया है",
     "email_already_registered": "यह ईमेल पहले से पंजीकृत है",
-
     "name_already_exists": "नाम पहले से मौजूद है",
     "slug_already_exists": "स्लग पहले से मौजूद है",
     "email_already_exists": "ईमेल पहले से मौजूद है",
@@ -79,22 +86,17 @@
     "update_success": "सेट सफलतापूर्वक अपडेट किया गया",
     "delete_success": "सेट सफलतापूर्वक हटाया गया"
   },
-
   "home_page": {
     "welcome": "हमारे प्लेटफ़ॉर्म पर आपका स्वागत है"
   },
-
   "api_page": {
     "welcome": "API पर आपका स्वागत है"
   },
-
   "health_page": {
     "healthy": "सिस्टम सही से काम कर रहा है"
   },
-
   "welcome_all": "API पर स्वागत है — सब कुछ एक ही जगह",
   "success": "ऑपरेशन सफलतापूर्वक पूरा हुआ",
-
   "filter_group": {
     "create_success": "फ़िल्टर समूह सफलतापूर्वक बनाया गया",
     "fetch_success": "फ़िल्टर समूह सफलतापूर्वक प्राप्त किए गए",

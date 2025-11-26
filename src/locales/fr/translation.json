@@ -5,7 +5,16 @@
     "login_success": "Connexion réussie",
     "invalid_credentials": "E-mail ou mot de passe incorrect"
   },
-
+  "user": {
+    "update_success": "User updated successfully",
+    "delete_success": "User deleted successfully",
+    "not_found": "User not found",
+    "update_failed": "Failed to update user",
+    "delete_failed": "Failed to delete user",
+    "not_authorized": "You are not authorized to perform this action",
+    "fetch_success": "Users fetched successfully",
+    "fetch_failed": "Failed to fetch users"
+  },
   "errors": {
     "bad_request": "Requête incorrecte",
     "unauthorized": "Non autorisé",
@@ -23,13 +32,11 @@
     "bad_gateway": "Mauvaise passerelle",
     "service_unavailable": "Service indisponible",
     "you_are_unauthorized": "Vous n’êtes pas autorisé",
-
     "invalid_credentials": "Identifiants invalides",
     "email_not_verified": "E-mail non vérifié",
     "invalid_otp": "OTP invalide",
     "reset_password_expired": "Le lien de réinitialisation a expiré",
     "email_already_registered": "L’e-mail est déjà enregistré",
-
     "name_already_exists": "Le nom existe déjà",
     "slug_already_exists": "Le slug existe déjà",
     "email_already_exists": "L’e-mail existe déjà",
@@ -85,18 +92,14 @@
   "home_page": {
     "welcome": "Bienvenue sur notre plateforme"
   },
-
   "api_page": {
     "welcome": "Bienvenue sur l’API"
   },
-
   "health_page": {
     "healthy": "Le système est opérationnel"
   },
-
   "welcome_all": "Bienvenue sur l’API — tout au même endroit",
   "success": "Opération effectuée avec succès",
-
   "filter_group": {
     "create_success": "Groupe de filtres créé avec succès",
     "fetch_success": "Groupes de filtres récupérés avec succès",
@@ -181,7 +184,7 @@
     "spin_reward_updated": "Récompense de tour mise à jour avec succès",
     "spin_reward_deleted": "Récompense de tour supprimée avec succès",
     "user_spin_tokens_updated": "Jetons de tour de l'utilisateur mis à jour avec succès",
-    "daily_limit_reached": "Limite quotidienne atteinte", 
+    "daily_limit_reached": "Limite quotidienne atteinte",
     "monthly_limit_reached": "Limite mensuelle atteinte",
     "invalid_spin_request": "Requête de tour invalide",
     "spin_reward_inactive": "Récompense de tour désactivée",

@@ -5,22 +5,27 @@ const { User } = require('../../models/user.model');
 const { ErrorHandler } = require('../../utils/error-handler');
 const { pickWeighted } = require('../../utils/utils');
 const CONSTANT_ENUM = require('../../helper/constant-enums');
+const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+const timezone = require('dayjs/plugin/timezone');
+const config = require('../../config/config');
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 function isSameDay(d1, d2) {
-  return d1.getUTCFullYear() === d2.getUTCFullYear() &&
-    d1.getUTCMonth() === d2.getUTCMonth() &&
-    d1.getUTCDate() === d2.getUTCDate();
+  const tz = config.server.appTimezone;
+  const date1 = dayjs(d1).tz(tz);
+  const date2 = dayjs(d2).tz(tz);
+  return date1.isSame(date2, 'day');
 }
 
 async function refreshRewardCountersIfNeeded(reward) {
-  // optional: if you want automatic reset you can add a last_reset date on reward
-  // For simplicity here we rely on separate cron job to reset daily_claimed / monthly_claimed
   return reward;
 }
 
-
-async function chooseReward() {
-  let rewards = await SpinReward.find({ is_active: true }).lean();
+async function chooseReward(session) {
+  let rewards = await SpinReward.find({ is_active: true }).session(session).lean();
   if (!rewards || !rewards.length) throw new ErrorHandler(404, 'spin.no_rewards');
 
   const now = new Date();
@@ -47,11 +52,32 @@ async function spinForUser(userId, meta = {}) {
     const user = await User.findById(userId).session(session);
     if (!user) throw new ErrorHandler(404, 'user.not_found');
 
-    // if (!user.spin_tokens || user.spin_tokens < 1) {
-    //   throw new ErrorHandler(403, 'spin.insufficient_tokens');
-    // }
+    if (!user.spinStats) {
+      user.spinStats = {
+        totalPurchases: 0,
+        totalSpinsAvailable: 0,
+        spinsUsedToday: 0,
+        lastSpinDate: null
+      };
+    }
 
-    const chosen = await chooseReward();
+    const now = new Date();
+    const lastSpin = user.spinStats.lastSpinDate ? new Date(user.spinStats.lastSpinDate) : null;
+
+    if (!lastSpin || !isSameDay(lastSpin, now)) {
+      user.spinStats.spinsUsedToday = 0;
+    }
+
+    const isFreeSpin = user.spinStats.spinsUsedToday < 1;
+
+    if (!isFreeSpin) {
+      if (!user.spinStats.totalSpinsAvailable || user.spinStats.totalSpinsAvailable < 1) {
+        throw new ErrorHandler(403, 'spin.insufficient_tokens');
+      }
+      user.spinStats.totalSpinsAvailable -= 1;
+    }
+
+    const chosen = await chooseReward(session);
 
     let credits_awarded = 0;
     const details = { reward_id: chosen._id, reward_name: chosen.name };
@@ -67,12 +93,42 @@ async function spinForUser(userId, meta = {}) {
       details.payload = chosen.value;
     }
 
-    user.spin_tokens = (user.spin_tokens || 0) - 1;
+    user.spinStats.spinsUsedToday += 1;
+    user.spinStats.lastSpinDate = now;
+
+    if (user.spin_tokens !== undefined) {
+      user.spin_tokens = undefined;
+    }
+
     await user.save({ session });
 
-    await SpinReward.findByIdAndUpdate(chosen._id, {
-      $inc: { daily_claimed: 1, monthly_claimed: 1 }
-    }, { session });
+    const updateQuery = {
+      _id: chosen._id,
+      $and: [
+        {
+          $or: [
+            { daily_limit: 0 },
+            { $expr: { $lt: ['$daily_claimed', '$daily_limit'] } }
+          ]
+        },
+        {
+          $or: [
+            { monthly_limit: 0 },
+            { $expr: { $lt: ['$monthly_claimed', '$monthly_limit'] } }
+          ]
+        }
+      ]
+    };
+
+    const updatedReward = await SpinReward.findOneAndUpdate(
+      updateQuery,
+      { $inc: { daily_claimed: 1, monthly_claimed: 1 } },
+      { session, new: true }
+    );
+
+    if (!updatedReward) {
+      throw new ErrorHandler(409, 'spin.reward_limit_reached_try_again');
+    }
 
     const history = await SpinHistory.create([{
       user_id: user._id,
