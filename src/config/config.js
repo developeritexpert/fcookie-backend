@@ -13,6 +13,8 @@ const config = {
     backendLink: process.env.BACKEND_LINK || '',
     smtpMail: process.env.SMTP_MAIL || '',
     smtpPassword: process.env.SMTP_PASS || '',
+    appTimezone: process.env.APP_TIMEZONE || 'Asia/Kolkata',
+
   },
 };
 

@@ -5,7 +5,16 @@
     "login_success": "Inicio de sesión exitoso",
     "invalid_credentials": "Correo o contraseña incorrectos"
   },
-
+  "user": {
+    "update_success": "User updated successfully",
+    "delete_success": "User deleted successfully",
+    "not_found": "User not found",
+    "update_failed": "Failed to update user",
+    "delete_failed": "Failed to delete user",
+    "not_authorized": "You are not authorized to perform this action",
+    "fetch_success": "Users fetched successfully",
+    "fetch_failed": "Failed to fetch users"
+  },
   "errors": {
     "bad_request": "Solicitud incorrecta",
     "unauthorized": "No autorizado",
@@ -23,13 +32,11 @@
     "bad_gateway": "Puerta de enlace incorrecta",
     "service_unavailable": "Servicio no disponible",
     "you_are_unauthorized": "No estás autorizado",
-
     "invalid_credentials": "Credenciales inválidas",
     "email_not_verified": "El correo no está verificado",
     "invalid_otp": "OTP inválido",
     "reset_password_expired": "El enlace de restablecimiento ha expirado",
     "email_already_registered": "El correo electrónico ya está registrado",
-
     "name_already_exists": "El nombre ya existe",
     "slug_already_exists": "El slug ya existe",
     "email_already_exists": "El correo electrónico ya existe",
@@ -86,18 +93,14 @@
   "home_page": {
     "welcome": "Bienvenido a nuestra plataforma"
   },
-
   "api_page": {
     "welcome": "Bienvenido a la API"
   },
-
   "health_page": {
     "healthy": "El sistema está funcionando correctamente"
   },
-
   "welcome_all": "Bienvenido a la API — todo en un solo lugar",
   "success": "Operación realizada con éxito",
-
   "filter_group": {
     "create_success": "Grupo de filtros creado con éxito",
     "fetch_success": "Grupos de filtros obtenidos con éxito",

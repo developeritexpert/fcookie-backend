@@ -5,7 +5,16 @@
     "login_success": "تم تسجيل الدخول بنجاح",
     "invalid_credentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة"
   },
-
+  "user": {
+    "update_success": "User updated successfully",
+    "delete_success": "User deleted successfully",
+    "not_found": "User not found",
+    "update_failed": "Failed to update user",
+    "delete_failed": "Failed to delete user",
+    "not_authorized": "You are not authorized to perform this action",
+    "fetch_success": "Users fetched successfully",
+    "fetch_failed": "Failed to fetch users"
+  },
   "errors": {
     "bad_request": "طلب غير صالح",
     "unauthorized": "غير مصرح",
@@ -28,7 +37,6 @@
     "invalid_otp": "رمز OTP غير صالح",
     "reset_password_expired": "رابط إعادة تعيين كلمة المرور منتهي",
     "email_already_registered": "البريد الإلكتروني مسجل بالفعل",
-
     "name_already_exists": "الاسم موجود بالفعل",
     "slug_already_exists": "المعرف موجود بالفعل",
     "email_already_exists": "البريد الإلكتروني موجود بالفعل",
@@ -41,7 +49,6 @@
     "mobile_already_exists": "رقم الهاتف موجود بالفعل",
     "phone_already_exists": "رقم الهاتف موجود بالفعل",
     "tag_already_exists": "الوسم موجود بالفعل",
-
     "name_validation_failed": "فشل التحقق من الاسم",
     "slug_validation_failed": "فشل التحقق من المعرف",
     "email_validation_failed": "فشل التحقق من البريد الإلكتروني",
@@ -55,7 +62,6 @@
     "mobile_validation_failed": "فشل التحقق من رقم الهاتف",
     "phone_validation_failed": "فشل التحقق من رقم الهاتف",
     "tag_validation_failed": "فشل التحقق من التسمية",
-
     "invalid_id": "معرف غير صالح",
     "invalid__id": "معرف غير صالح",
     "invalid_slug": "معرف غير صالح",
@@ -83,19 +89,15 @@
     "update_success": "تم تحديث المجموعة بنجاح",
     "delete_success": "تم حذف المجموعة بنجاح"
   },
-
   "home_page": {
     "welcome": "مرحبًا بك في منصتنا"
   },
-
   "api_page": {
     "welcome": "مرحبًا بك في واجهة API"
   },
-
   "health_page": {
     "healthy": "النظام يعمل بشكل جيد"
   },
-
   "welcome_all": "مرحبًا بك في API — كل شيء في مكان واحد",
   "success": "تمت العملية بنجاح",
   "filter_group": {

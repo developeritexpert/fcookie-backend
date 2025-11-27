@@ -3,8 +3,13 @@ const { sendResponse } = require('../../utils/response');
 const spinService = require('../../services/spin/spin.service');
 const SpinReward = require('../../models/spin-reward.model');
 const { ErrorHandler } = require('../../utils/error-handler');
+const CONSTANT_ENUM = require('../../helper/constant-enums');
 
 const createReward = wrapAsync(async (req, res) => {
+  const count = await SpinReward.countDocuments();
+  if (count >= CONSTANT_ENUM.MAX_SPIN_REWARDS) {
+    throw new ErrorHandler(400, `spin.max_rewards_limit_reached`);
+  }
   const payload = req.body;
   const created = await SpinReward.create(payload);
   sendResponse(res, created, 'spin.reward_create_success', 201);
@@ -18,7 +23,11 @@ const updateReward = wrapAsync(async (req, res) => {
 
 const listRewards = wrapAsync(async (req, res) => {
   const rewards = await SpinReward.find().sort({ wheel_position: 1 });
-  sendResponse(res, rewards, 'spin.rewards_fetch_success', 200);
+  const count = await SpinReward.countDocuments();
+  sendResponse(res, rewards, 'spin.rewards_fetch_success', 200, {
+    existingRewardsCount: count,
+    maxRewards: CONSTANT_ENUM.MAX_SPIN_REWARDS
+  });
 });
 
 const deleteReward = wrapAsync(async (req, res) => {

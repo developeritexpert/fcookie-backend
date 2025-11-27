@@ -5,7 +5,16 @@
     "login_success": "Login successful",
     "invalid_credentials": "Invalid email or password"
   },
-
+  "user": {
+    "update_success": "User updated successfully",
+    "delete_success": "User deleted successfully",
+    "not_found": "User not found",
+    "update_failed": "Failed to update user",
+    "delete_failed": "Failed to delete user",
+    "not_authorized": "You are not authorized to perform this action",
+    "fetch_success": "Users fetched successfully",
+    "fetch_failed": "Failed to fetch users"
+  },
   "errors": {
     "bad_request": "Bad request",
     "unauthorized": "Unauthorized",
@@ -23,13 +32,11 @@
     "bad_gateway": "Bad Gateway",
     "service_unavailable": "Service Unavailable",
     "you_are_unauthorized": "You are unauthorized",
-
     "invalid_credentials": "Invalid credentials",
     "email_not_verified": "Email is not verified",
     "invalid_otp": "Invalid OTP",
     "reset_password_expired": "Reset password link expired",
     "email_already_registered": "Email is already registered",
-
     "name_already_exists": "Name already exists",
     "slug_already_exists": "Slug already exists",
     "email_already_exists": "Email already exists",
@@ -86,18 +93,14 @@
   "home_page": {
     "welcome": "Welcome to our platform"
   },
-
   "api_page": {
     "welcome": "Welcome to the API"
   },
-
   "health_page": {
     "healthy": "System is healthy"
   },
-
   "welcome_all": "Welcome to the API — everything in one place",
   "success": "Operation completed successfully",
-
   "filter_group": {
     "create_success": "Filter group created successfully",
     "fetch_success": "Filter groups fetched successfully",
@@ -195,7 +198,7 @@
     "spin_reward_deletion_failed": "Failed to delete spin reward",
     "spin_history_fetch_failed": "Failed to fetch spin history",
     "rewards_fetch_success": "Rewards fetched successfully",
-    "rewards_fetch_failed": "Failed to fetch rewards", 
+    "rewards_fetch_failed": "Failed to fetch rewards",
     "spin_attempt_recorded": "Spin attempt recorded successfully",
     "spin_attempt_record_failed": "Failed to record spin attempt"
   }

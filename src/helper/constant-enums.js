@@ -33,6 +33,9 @@ const SPIN_REWARD_TYPE = {
   COUPON: 'COUPON',
 };
 
+const MAX_SPIN_REWARDS = 12;
+const APP_TIMEZONE = 'Asia/Kolkata';
+
 const GRADER = {
   PSA: 'PSA',
   BGS: 'BGS',
@@ -66,4 +69,6 @@ module.exports = {
   VISIBILITY,
   CURRENCY,
   SPIN_REWARD_TYPE,
+  MAX_SPIN_REWARDS,
+  APP_TIMEZONE,
 };
