@@ -43,6 +43,7 @@ const register = async ({ name, email, password, phoneNumber }) => {
 };
 
 const login = async (email, password, rememberMe = false) => {
+  
   const normalized = email.toLowerCase();
 
   const user = await User.findOne({ email: normalized }).select('+password');
@@ -56,9 +57,9 @@ const login = async (email, password, rememberMe = false) => {
     throw new ErrorHandler(403, 'Account deactivated. Please contact support.');
   }
 
-  if (authConfig.features.emailVerification && !user.isEmailVerified) {
-    throw new ErrorHandler(403, 'Please verify your email first');
-  }
+  // if (authConfig.features.emailVerification && !user.isEmailVerified) {
+  //   throw new ErrorHandler(403, 'Please verify your email first');
+  // }
 
   const isMatch = await user.comparePassword(password);
   if (!isMatch) {
@@ -73,13 +74,17 @@ const login = async (email, password, rememberMe = false) => {
   const token = TOKEN_GEN.generateToken(user._id.toString(), user.role, expiry);
 
   return {
+    result: "success",
+    code: 200,
+    desc: "Login successful",
     data: {
       user: user.toSafeObject(),
       token,
       expiresIn: expiry,
     },
-    message: 'auth.login_success',
   };
+
+
 };
 
 const verifyEmail = async (token) => {
