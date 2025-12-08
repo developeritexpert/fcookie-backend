@@ -2,6 +2,8 @@ const { User } = require('../../models/user.model');
 const { OTP } = require('../../models/otp.model');
 const { ErrorHandler } = require('../../utils/error-handler');
 const { generateVerificationToken } = require('../../utils/token.utils');
+const { convertExpiry } = require('../../utils/utils');
+
 const TOKEN_GEN = require('../../helper/generate-token');
 const mailService = require('../../mail/mails');
 const authConfig = require('../../config/auth.config');
@@ -70,13 +72,15 @@ const login = async (email, password, rememberMe = false) => {
       ? authConfig.tokens.accessToken.long
       : authConfig.tokens.accessToken.short;
 
-  const token = TOKEN_GEN.generateToken(user._id.toString(), user.role, expiry);
+  const expiresInMs = convertExpiry(expiry);
+
+  const token = TOKEN_GEN.generateToken(user._id.toString(), user.role, expiresInMs);
 
   return {
     data: {
       user: user.toSafeObject(),
       token,
-      expiresIn: expiry,
+      expiresIn: expiresInMs,
     },
     message: 'auth.login_success',
   };

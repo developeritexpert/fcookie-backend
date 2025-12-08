@@ -1,9 +1,21 @@
 const { format } = require('date-fns');
 const { default: axios } = require('axios');
+const ms = require("ms");
 
 let showLogs = isDevelopment();
 let showLimiterLogs = isDevelopment();
 let showErrorLogs = isDevelopment();
+
+function convertExpiry(expiry) {
+  if (!expiry || typeof expiry !== "string") return 0;
+
+  try {
+    return ms(expiry);
+  } catch (err) {
+    console.error("Invalid expiry format:", expiry);
+    return 0;
+  }
+}
 
 function enableDisableLogs(enableDisableLogs = false) {
   showLogs = enableDisableLogs;
@@ -367,4 +379,5 @@ module.exports = {
   getDateRange,
   generateMongoId,
   pickWeighted,
+  convertExpiry,
 };
