@@ -4,7 +4,7 @@ const path = require('path');
 const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
-  const allowedImageTypes = /jpeg|jpg|png|gif|webp/;
+  const allowedImageTypes = /jpeg|jpg|png|gif|webp|svg/;
   const allowedVideoTypes = /mp4|mov|avi|mkv|webm/;
 
   const ext = path.extname(file.originalname).toLowerCase().replace('.', '');

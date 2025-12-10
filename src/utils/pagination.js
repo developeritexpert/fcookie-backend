@@ -28,19 +28,25 @@ function extractFilters(query, allowedFilters, additionalFilters = {}) {
 }
 
 const buildCategoryFilters = (query) => {
+  console.log("inner quer",query)
   const filters = {};
 
-  if (query._id) filters._id = query._id;
-  if (query.slug) filters.slug = query.slug;
+  if (query.status && query.status !== "all") {
+    filters.status = query.status.toUpperCase();
+  }
 
-  if (query.status) filters.status = query.status;
-
-  if (query.name) {
-    filters.name = { $regex: query.name, $options: 'i' };
+  if (query.search) {
+    const searchRegex = new RegExp(query.search, "i");
+    filters.$or = [
+      { name: searchRegex },
+      { slug: searchRegex },
+      { description: searchRegex }
+    ];
   }
 
   return filters;
 };
+
 const buildSetFilters = (query) => {
   const filters = {};
 
