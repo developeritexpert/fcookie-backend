@@ -7,6 +7,7 @@ const { celebrate } = require('celebrate');
 const checkAuth = require('../../middleware/check-auth');
 const authorizedRoles = require('../../middleware/authorized-roles');
 const CONSTANT_ENUM = require('../../helper/constant-enums');
+const upload = require('../../middleware/multer');
 
 const API = {
   CREATE: '/',
@@ -18,13 +19,16 @@ const API = {
 
 categoryRouter.use(checkAuth);
 
+// Create category - multer MUST come before celebrate for multipart/form-data
 categoryRouter.post(
   API.CREATE,
   authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN]),
-  celebrate(CategorySchema.createCategory),
+  upload.single('icon'),
+  celebrate(CategorySchema.createCategory, { abortEarly: false }),
   categoryController.createCategory
 );
 
+// Get all categories
 categoryRouter.get(
   API.GET_ALL,
   authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
@@ -32,6 +36,7 @@ categoryRouter.get(
   categoryController.getAllCategories
 );
 
+// Get category by ID
 categoryRouter.get(
   API.GET_BY_ID,
   authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
@@ -39,13 +44,16 @@ categoryRouter.get(
   categoryController.getCategoryById
 );
 
+// Update category - multer MUST come before celebrate
 categoryRouter.put(
   API.UPDATE_BY_ID,
   authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN]),
-  celebrate(CategorySchema.updateCategory),
+  upload.single('icon'),
+  celebrate(CategorySchema.updateCategory, { abortEarly: false }),
   categoryController.updateCategory
 );
 
+// Delete category
 categoryRouter.delete(
   API.DELETE_BY_ID,
   authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN]),

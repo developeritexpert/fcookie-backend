@@ -19,7 +19,7 @@ const registerUser = {
       'any.required': 'Password is required',
     }),
 
-    confirmPassword: Joi.string().valid(Joi.ref('password')).required().messages({
+    confirmPassword: Joi.string().valid(Joi.ref('password')).messages({
       'any.only': 'Confirm password does not match password',
       'any.required': 'Confirm password is required',
     }),
