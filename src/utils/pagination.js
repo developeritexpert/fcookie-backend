@@ -65,33 +65,93 @@ const buildSetFilters = (query) => {
 const buildFilterGroupFilters = (query) => {
   const filters = {};
 
-  if (query._id) filters._id = query._id;
-  if (query.categoryId) filters.categoryId = query.categoryId;
-  if (query.slug) filters.slug = query.slug;
+  // Handle search - search in name and slug fields
+  if (query.search && query.search.trim()) {
+    const searchRegex = new RegExp(query.search.trim(), 'i');
+    filters.$or = [
+      { name: searchRegex },
+      { slug: searchRegex }
+    ];
+  }
 
-  if (query.status) filters.status = query.status;
+  // Handle specific name filter
+  if (query.name && query.name.trim() && !query.search) {
+    filters.name = new RegExp(query.name.trim(), 'i');
+  }
 
-  if (query.name) {
-    filters.name = { $regex: query.name, $options: 'i' };
+  // Handle slug filter
+  if (query.slug && query.slug.trim()) {
+    filters.slug = new RegExp(query.slug.trim(), 'i');
+  }
+
+  // Handle type filter
+  if (query.type) {
+    filters.type = query.type;
+  }
+
+  // Handle status filter
+  if (query.status) {
+    filters.status = query.status;
+  }
+
+  // Handle archived filter
+  if (query.archived !== undefined) {
+    filters.archived = query.archived === 'true' || query.archived === true;
+  }
+
+  // Handle required filter
+  if (query.required !== undefined) {
+    filters.required = query.required === 'true' || query.required === true;
+  }
+
+  // Handle protected filter
+  if (query.protected !== undefined) {
+    filters.protected = query.protected === 'true' || query.protected === true;
   }
 
   return filters;
 };
+
 const buildFilterValueFilters = (query) => {
   const filters = {};
 
-  if (query._id) filters._id = query._id;
-  if (query.groupId) filters.groupId = query.groupId;
-  if (query.valueKey) filters.valueKey = query.valueKey;
+  // Handle groupId filter
+  if (query.groupId) {
+    filters.groupId = query.groupId;
+  }
 
-  if (query.status) filters.status = query.status;
+  // Handle search - search in label and valueKey fields
+  if (query.search && query.search.trim()) {
+    const searchRegex = new RegExp(query.search.trim(), 'i');
+    filters.$or = [
+      { label: searchRegex },
+      { valueKey: searchRegex }
+    ];
+  }
 
-  if (query.label) {
-    filters.label = { $regex: query.label, $options: 'i' };
+  // Handle specific label filter
+  if (query.label && query.label.trim()) {
+    filters.label = new RegExp(query.label.trim(), 'i');
+  }
+
+  // Handle valueKey filter
+  if (query.valueKey && query.valueKey.trim()) {
+    filters.valueKey = new RegExp(query.valueKey.trim(), 'i');
+  }
+
+  // Handle status filter
+  if (query.status) {
+    filters.status = query.status;
+  }
+
+  // Handle archived filter
+  if (query.archived !== undefined) {
+    filters.archived = query.archived === 'true' || query.archived === true;
   }
 
   return filters;
 };
+
 
 const buildAssetFilters = (query = {}) => {
   const filters = {};

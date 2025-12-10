@@ -54,19 +54,35 @@ FilterGroupSchema.pre('validate', function (next) {
   next();
 });
 
-FilterGroupSchema.pre('findOneAndUpdate', function (next) {
-  const update = this.getUpdate();
+FilterGroupSchema.pre("findOneAndUpdate", function (next) {
+  const update = this.getUpdate() || {};
 
-  if (update.name && !update.slug) {
+  if (update.name) {
     update.slug = slugify(update.name, {
       lower: true,
       strict: true,
     });
-
-    this.setUpdate(update);
   }
 
   next();
 });
+
+
+// Delete related filter values when a group is removed
+FilterGroupSchema.pre('findOneAndDelete', async function (next) {
+  try {
+    const group = await this.model.findOne(this.getQuery());
+
+    if (group) {
+      await mongoose.model('FilterValue').deleteMany({ groupId: group._id });
+    }
+
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
+
 
 module.exports = mongoose.model('FilterGroup', FilterGroupSchema);

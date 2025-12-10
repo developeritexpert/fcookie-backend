@@ -1,9 +1,36 @@
 const FilterGroup = require('../../models/filter-group.model');
 const { ErrorHandler } = require('../../utils/error-handler');
 
+
+const reorderFilterGroups = async () => {
+  const groups = await FilterGroup.find().sort({ order: 1 });
+
+  for (let i = 0; i < groups.length; i++) {
+    if (groups[i].order !== i) {
+      groups[i].order = i;
+      await groups[i].save();
+    }
+  }
+};
+
+
+
 const createFilterGroup = async (payload) => {
   try {
-    return await FilterGroup.create(payload);
+    // 1️⃣ Get the group with highest order
+    const lastGroup = await FilterGroup.findOne().sort({ order: -1 });
+
+    // 2️⃣ Assign correct order
+    const nextOrder = lastGroup ? lastGroup.order + 1 : 0;
+
+    const newPayload = {
+      ...payload,
+      order: nextOrder
+    };
+
+    // 3️⃣ Create record with auto-order
+    return await FilterGroup.create(newPayload);
+
   } catch (err) {
     if (err.code === 11000) {
       throw new ErrorHandler(409, 'filter_group.slug_exists');
@@ -11,6 +38,7 @@ const createFilterGroup = async (payload) => {
     throw new ErrorHandler(500, err.message);
   }
 };
+
 
 const getAllFilterGroups = async (page, limit, filters, sortBy = 'createdAt', order = 'desc') => {
   const skip = (page - 1) * limit;
@@ -56,11 +84,17 @@ const updateFilterGroup = async (id, payload) => {
     throw ErrorHandler.from(err);
   }
 };
+
 const deleteFilterGroup = async (id) => {
   const deleted = await FilterGroup.findByIdAndDelete(id);
   if (!deleted) throw new ErrorHandler(404, 'filter_group.not_found');
+
+  // 🔥 Auto reorder remaining groups
+  await reorderFilterGroups();
+
   return true;
 };
+
 
 module.exports = {
   createFilterGroup,
