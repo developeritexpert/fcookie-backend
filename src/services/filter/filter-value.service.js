@@ -2,6 +2,18 @@ const FilterValue = require('../../models/filter-value.model');
 const FilterGroup = require('../../models/filter-group.model');
 const { ErrorHandler } = require('../../utils/error-handler');
 
+const reorderFilterValues = async (groupId) => {
+  const values = await FilterValue.find({ groupId }).sort({ order: 1 });
+
+  for (let i = 0; i < values.length; i++) {
+    if (values[i].order !== i) {
+      values[i].order = i;
+      await values[i].save();
+    }
+  }
+};
+
+
 const createFilterValue = async (payload) => {
   try {
     const groupExists = await FilterGroup.findById(payload.groupId);
@@ -85,8 +97,13 @@ const updateFilterValue = async (id, payload) => {
 const deleteFilterValue = async (id) => {
   const deleted = await FilterValue.findByIdAndDelete(id);
   if (!deleted) throw new ErrorHandler(404, 'filter_value.not_found');
+
+  // 🔥 Reorder values inside this group only
+  await reorderFilterValues(deleted.groupId);
+
   return true;
 };
+
 
 module.exports = {
   createFilterValue,
