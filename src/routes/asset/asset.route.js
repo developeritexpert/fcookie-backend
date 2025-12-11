@@ -1,7 +1,9 @@
 const express = require('express');
 const assetRouter = express.Router();
+
 const assetController = require('../../controllers/asset/asset.controller');
 const AssetSchema = require('../../request-schemas/asset.schema');
+
 const { celebrate } = require('celebrate');
 const checkAuth = require('../../middleware/check-auth');
 const authorizedRoles = require('../../middleware/authorized-roles');
@@ -16,8 +18,13 @@ const API = {
   DELETE_BY_ID: '/:id',
 };
 
+// 🔐 Authentication required for all asset routes
 assetRouter.use(checkAuth);
 
+/**
+ * @route POST /assets
+ * @desc Create new asset
+ */
 assetRouter.post(
   API.CREATE,
   authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
@@ -30,6 +37,10 @@ assetRouter.post(
   assetController.createAsset
 );
 
+/**
+ * @route GET /assets
+ * @desc Get all assets with filters
+ */
 assetRouter.get(
   API.GET_ALL,
   authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
@@ -37,6 +48,10 @@ assetRouter.get(
   assetController.getAllAssets
 );
 
+/**
+ * @route GET /assets/:id
+ * @desc Get asset by ID
+ */
 assetRouter.get(
   API.GET_BY_ID,
   authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
@@ -44,6 +59,10 @@ assetRouter.get(
   assetController.getAssetById
 );
 
+/**
+ * @route PUT /assets/:id
+ * @desc Update asset
+ */
 assetRouter.put(
   API.UPDATE_BY_ID,
   authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
@@ -56,6 +75,10 @@ assetRouter.put(
   assetController.updateAsset
 );
 
+/**
+ * @route DELETE /assets/:id
+ * @desc Delete asset
+ */
 assetRouter.delete(
   API.DELETE_BY_ID,
   authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN]),

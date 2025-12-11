@@ -157,7 +157,8 @@ const buildAssetFilters = (query = {}) => {
   const filters = {};
 
   if (query.search) {
-    filters.$text = { $search: query.search };
+  filters.name = { $regex: query.search, $options: "i" };
+
   }
 
   if (query.categoryId) {

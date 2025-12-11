@@ -23,4 +23,30 @@ const FilterValueSchema = new mongoose.Schema(
 
 FilterValueSchema.index({ groupId: 1, valueKey: 1 }, { unique: true });
 
+FilterValueSchema.pre("findOneAndDelete", async function (next) {
+  try {
+    const valueDoc = await this.model.findOne(this.getQuery());
+    if (!valueDoc) return next();
+
+    const Asset = mongoose.model("Asset");
+
+    await Asset.updateMany(
+      {},
+      {
+        $pull: {
+          filters: {
+            groupId: valueDoc.groupId,
+            valueId: valueDoc._id,
+          }
+        }
+      }
+    );
+
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
+
 module.exports = mongoose.model('FilterValue', FilterValueSchema);
