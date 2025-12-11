@@ -1,15 +1,12 @@
+// controllers/asset.controller.js
 const { wrapAsync } = require('../../utils/wrap-async');
 const { sendResponse } = require('../../utils/response');
 const assetService = require('../../services/asset/asset.service');
 
 const createAsset = wrapAsync(async (req, res) => {
-  const owner_id = req.user.id;
-  req.body.owner_id = owner_id;
+  req.body.owner_id = req.user.id;
 
-  const files = req.files || {};
-  const payload = req.body || {};
-
-  const data = await assetService.createAsset(payload, files);
+  const data = await assetService.createAsset(req.body, req.files || {});
   sendResponse(res, data, 'asset.create_success', 201);
 });
 
@@ -24,10 +21,7 @@ const getAssetById = wrapAsync(async (req, res) => {
 });
 
 const updateAsset = wrapAsync(async (req, res) => {
-  const files = req.files || {};
-  const payload = req.body || {};
-
-  const data = await assetService.updateAsset(req.params.id, payload, files);
+  const data = await assetService.updateAsset(req.params.id, req.body, req.files || {});
   sendResponse(res, data, 'asset.update_success', 200);
 });
 

@@ -69,13 +69,24 @@ FilterGroupSchema.pre("findOneAndUpdate", function (next) {
 
 
 // Delete related filter values when a group is removed
+// Delete related filter values AND remove them from Asset filters
 FilterGroupSchema.pre('findOneAndDelete', async function (next) {
   try {
     const group = await this.model.findOne(this.getQuery());
 
-    if (group) {
-      await mongoose.model('FilterValue').deleteMany({ groupId: group._id });
-    }
+    if (!group) return next();
+
+    const FilterValue = mongoose.model("FilterValue");
+    const Asset = mongoose.model("Asset");
+
+    // Delete all values in this group
+    await FilterValue.deleteMany({ groupId: group._id });
+
+    // Remove all product filter entries for this group
+    await Asset.updateMany(
+      {},
+      { $pull: { filters: { groupId: group._id } } }
+    );
 
     next();
   } catch (err) {
