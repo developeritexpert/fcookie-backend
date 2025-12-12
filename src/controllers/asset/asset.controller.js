@@ -30,10 +30,25 @@ const deleteAsset = wrapAsync(async (req, res) => {
   sendResponse(res, null, 'asset.delete_success', 200);
 });
 
+const getAvailableFilters = wrapAsync(async (req, res) => {
+  const { categoryId } = req.query;
+  console.log("categoryId",categoryId);
+  const [filters, priceRange] = await Promise.all([
+    assetService.getAvailableFilters(categoryId),
+    assetService.getPriceRange(categoryId)
+  ]);
+  console.log(["filters",filters,
+    "priceRange",priceRange]
+  );
+  
+  sendResponse(res, { filters, priceRange }, 'Filters fetched successfully', 200);
+});
+
 module.exports = {
   createAsset,
   getAllAssets,
   getAssetById,
   updateAsset,
   deleteAsset,
+  getAvailableFilters
 };
