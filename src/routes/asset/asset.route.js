@@ -16,10 +16,20 @@ const API = {
   GET_BY_ID: '/:id',
   UPDATE_BY_ID: '/:id',
   DELETE_BY_ID: '/:id',
+  GET_AVAILABLE_FILTERS: '/filters',
 };
 
 // 🔐 Authentication required for all asset routes
 assetRouter.use(checkAuth);
+
+
+
+assetRouter.get(
+  API.GET_AVAILABLE_FILTERS,
+  authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
+  assetController.getAvailableFilters
+);
+
 
 /**
  * @route POST /assets
@@ -85,5 +95,8 @@ assetRouter.delete(
   celebrate(AssetSchema.deleteAsset),
   assetController.deleteAsset
 );
+
+
+
 
 module.exports = assetRouter;

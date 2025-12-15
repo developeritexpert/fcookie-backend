@@ -110,6 +110,7 @@ const AssetSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+
 // -------------------------------
 // INDEXES FOR PERFORMANCE
 // -------------------------------
@@ -118,6 +119,26 @@ AssetSchema.index({ name: "text", description: "text" });
 AssetSchema.index({ categoryId: 1 });
 AssetSchema.index({ 'filters.groupId': 1 });
 AssetSchema.index({ 'filters.valueId': 1 });
+// models/asset.model.js - ADD THESE INDEXES AT THE END (AFTER LINE 100)
+
+// -------------------------------
+// ENHANCED INDEXES FOR PERFORMANCE
+// -------------------------------
+// NEW: Additional performance indexes
+AssetSchema.index({ status: 1, visibility: 1 });
+AssetSchema.index({ price: 1 });
+AssetSchema.index({ createdAt: -1 });
+
+// NEW: Compound indexes for common queries
+AssetSchema.index({ categoryId: 1, status: 1, visibility: 1 });
+AssetSchema.index({ categoryId: 1, price: 1 });
+AssetSchema.index({ status: 1, visibility: 1, createdAt: -1 });
+
+// NEW: For filter queries
+AssetSchema.index({ 'filters.groupId': 1, 'filters.valueId': 1 });
+
+// Run in MongoDB shell to ensure indexes are created:
+// db.assets.createIndexes()
 
 
 

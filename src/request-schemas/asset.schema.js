@@ -181,6 +181,28 @@ const listAssets = {
     visibility: Joi.string().valid(...Object.values(CONSTANT_ENUM.VISIBILITY)).optional(),
     sortBy: Joi.string().optional(),
     order: Joi.string().valid('asc', 'desc').optional(),
+    filters: Joi.alternatives()
+    .try(
+      Joi.array().items(
+        Joi.object({
+          groupId: objectId.required(),
+          valueId: objectId.required(),
+        })
+      ),
+
+      // allow JSON string version for query
+      Joi.string().custom((value, helpers) => {
+        try {
+          const parsed = JSON.parse(value);
+          if (!Array.isArray(parsed)) return helpers.error("any.invalid");
+          return parsed;
+        } catch (e) {
+          return helpers.error("any.invalid");
+        }
+      })
+    )
+    .optional(),
+
   }),
 };
 

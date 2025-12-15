@@ -1,17 +1,32 @@
 const FilterValue = require('../../models/filter-value.model');
 const FilterGroup = require('../../models/filter-group.model');
 const { ErrorHandler } = require('../../utils/error-handler');
+const { clearFilterCache } = require('../../utils/filter-cache');
 
 const reorderFilterValues = async (groupId) => {
   const values = await FilterValue.find({ groupId }).sort({ order: 1 });
 
+  const bulkOps = [];
+  let hasChanges = false;
+
   for (let i = 0; i < values.length; i++) {
     if (values[i].order !== i) {
-      values[i].order = i;
-      await values[i].save();
+      hasChanges = true;
+      bulkOps.push({
+        updateOne: {
+          filter: { _id: values[i]._id },
+          update: { $set: { order: i } }
+        }
+      });
     }
   }
+
+  if (hasChanges) {
+    await FilterValue.bulkWrite(bulkOps);
+    clearFilterCache(); // 🔥 CRITICAL
+  }
 };
+
 
 
 const createFilterValue = async (payload) => {
@@ -21,6 +36,7 @@ const createFilterValue = async (payload) => {
       throw new ErrorHandler(404, 'filter_group.not_found');
     }
 
+    clearFilterCache();
     return await FilterValue.create(payload);
   } catch (err) {
     if (err.code === 11000) {
@@ -82,6 +98,8 @@ const updateFilterValue = async (id, payload) => {
     }).populate('groupId', 'name slug type');
 
     if (!updated) throw new ErrorHandler(404, 'filter_value.not_found');
+
+    clearFilterCache();
     return updated;
   } catch (err) {
     if (err.code === 11000) {

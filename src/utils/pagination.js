@@ -174,10 +174,11 @@ const buildAssetFilters = (query = {}) => {
   }
 
   if (query.minPrice || query.maxPrice) {
-    filters.price = {};
-    if (query.minPrice) filters.price.$gte = Number(query.minPrice);
-    if (query.maxPrice) filters.price.$lte = Number(query.maxPrice);
+    filters.listing_price = {};
+    if (query.minPrice) filters.listing_price.$gte = Number(query.minPrice);
+    if (query.maxPrice) filters.listing_price.$lte = Number(query.maxPrice);
   }
+
 
   if (query.filters) {
     try {
