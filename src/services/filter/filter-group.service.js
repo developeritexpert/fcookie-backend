@@ -1,5 +1,6 @@
 const FilterGroup = require('../../models/filter-group.model');
 const { ErrorHandler } = require('../../utils/error-handler');
+const { clearFilterCache } = require('../../utils/filter-cache');
 
 
 const reorderFilterGroups = async () => {
@@ -28,6 +29,8 @@ const createFilterGroup = async (payload) => {
       order: nextOrder
     };
 
+
+    clearFilterCache();
     // 3️⃣ Create record with auto-order
     return await FilterGroup.create(newPayload);
 
@@ -79,6 +82,7 @@ const updateFilterGroup = async (id, payload) => {
 
     if (!updated) throw new ErrorHandler(404, 'filter_group.not_found');
 
+    clearFilterCache();
     return updated;
   } catch (err) {
     throw ErrorHandler.from(err);

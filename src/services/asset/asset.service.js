@@ -9,16 +9,10 @@ const { getPaginationParams, buildAssetFilters } = require('../../utils/paginati
 const { mergeImages } = require('../../utils/merge-images');
 const { validateFiltersArray } = require('../filter/filter-validator.service');
 
-// Optional: Install node-cache (npm install node-cache)
-// If not installed, it will just skip caching
-let NodeCache;
-let filterCache;
-try {
-  NodeCache = require('node-cache');
-  filterCache = new NodeCache({ stdTTL: 300 }); // 5 minutes cache
-} catch (e) {
-  console.log('node-cache not installed, caching disabled');
-}
+
+const { getFilterCache, clearFilterCache } = require('../../utils/filter-cache');
+const filterCache = getFilterCache();
+
 
 const parseJSON = (value) => {
   try { return JSON.parse(value); }
@@ -114,7 +108,8 @@ const createAsset = async (payload, files = {}) => {
     const asset = await Asset.create(payload);
     
     // Clear cache after creating new asset
-    if (filterCache) filterCache.flushAll();
+    clearFilterCache();
+
     
     return asset;
 
@@ -211,7 +206,8 @@ const updateAsset = async (id, payload, files = {}) => {
     if (!updated) throw new ErrorHandler(404, 'asset.not_found');
 
     // Clear cache after update
-    if (filterCache) filterCache.flushAll();
+    clearFilterCache();
+
 
     return updated;
 
@@ -227,7 +223,8 @@ const deleteAsset = async (id) => {
   if (!deleted) throw new ErrorHandler(404, 'asset.not_found');
   
   // Clear cache after delete
-  if (filterCache) filterCache.flushAll();
+  clearFilterCache();
+
   
   return true;
 };
@@ -346,14 +343,6 @@ const getPriceRange = async (categoryId = null) => {
 };
 
 
-/**
- * Clear filter cache (call after bulk operations)
- */
-const clearFilterCache = () => {
-  if (filterCache) filterCache.flushAll();
-};
-
-
 module.exports = {
   createAsset,
   getAllAssets,
@@ -364,5 +353,5 @@ module.exports = {
   // New functions
   getAvailableFilters,
   getPriceRange,
-  clearFilterCache
+  
 };
