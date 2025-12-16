@@ -15,6 +15,7 @@ const API = {
   UPDATE_BY_ID: '/:id',
   DELETE_BY_ID: '/:id',
   SPIN: '/spin-wheel',
+  HISTORY: '/history',
 };
 router.post(
   API.CREATE,
@@ -47,6 +48,13 @@ router.post(
   authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
   celebrate(SpinSchema.spinNow),
   spinController.spinNow
+);
+
+
+router.get(
+  API.HISTORY,
+  authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
+  spinController.getSpinHistory
 );
 
 module.exports = router;

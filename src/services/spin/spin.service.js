@@ -68,7 +68,7 @@ async function spinForUser(userId, meta = {}) {
       user.spinStats.spinsUsedToday = 0;
     }
 
-    const isFreeSpin = user.spinStats.spinsUsedToday < 1;
+    const isFreeSpin = user.spinStats.spinsUsedToday < 10;
 
     if (!isFreeSpin) {
       if (!user.spinStats.totalSpinsAvailable || user.spinStats.totalSpinsAvailable < 1) {
@@ -82,11 +82,19 @@ async function spinForUser(userId, meta = {}) {
     let credits_awarded = 0;
     const details = { reward_id: chosen._id, reward_name: chosen.name };
 
-    if (String(chosen.type) === CONSTANT_ENUM.SPIN_REWARD_TYPE.CREDITS) {
+    if (chosen.type === CONSTANT_ENUM.SPIN_REWARD_TYPE.CREDITS) {
       credits_awarded = Number(chosen.value) || 0;
-      user.credits = (user.credits || 0) + credits_awarded;
+
+      user.wallet.balance = (user.wallet.balance || 0) + credits_awarded;
+
+      user.wallet.transactions.push({
+        amount: credits_awarded,
+        type: 'credit',
+        note: 'Spin Wheel Reward',
+      });
+
       details.credits_awarded = credits_awarded;
-    } else if (String(chosen.type) === CONSTANT_ENUM.SPIN_REWARD_TYPE.TOKEN) {
+    }else if (String(chosen.type) === CONSTANT_ENUM.SPIN_REWARD_TYPE.TOKEN) {
       user.tokens = (user.tokens || 0) + (Number(chosen.value) || 0);
       details.tokens_awarded = Number(chosen.value) || 0;
     } else {

@@ -2,6 +2,8 @@ const { wrapAsync } = require('../../utils/wrap-async');
 const { sendResponse } = require('../../utils/response');
 const spinService = require('../../services/spin/spin.service');
 const SpinReward = require('../../models/spin-reward.model');
+const SpinHistory = require('../../models/spin-history.model');
+
 const { ErrorHandler } = require('../../utils/error-handler');
 const CONSTANT_ENUM = require('../../helper/constant-enums');
 
@@ -55,10 +57,35 @@ const spinNow = wrapAsync(async (req, res) => {
   sendResponse(res, response, 'spin.spin_success', 200);
 });
 
+const getSpinHistory = wrapAsync(async (req, res) => {
+  const userId = req.user.id;
+  const { page = 1, limit = 20 } = req.query;
+
+  const skip = (page - 1) * limit;
+
+  const history = await SpinHistory.find({ user_id: userId })
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(parseInt(limit))
+    .lean();
+
+  const total = await SpinHistory.countDocuments({ user_id: userId });
+
+  sendResponse(res, {
+    data: history,
+    pagination: {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      total,
+      totalPages: Math.ceil(total / limit)
+    }
+  }, 'spin.history_fetch_success', 200);
+});
 module.exports = {
   createReward,
   updateReward,
   listRewards,
   deleteReward,
-  spinNow
+  spinNow,
+  getSpinHistory
 };

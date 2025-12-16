@@ -31,6 +31,9 @@ const SPIN_REWARD_TYPE = {
   ITEM: 'ITEM',
   TOKEN: 'TOKEN',
   COUPON: 'COUPON',
+  BONUS: 'BONUS',
+  GIFT: 'GIFT',
+  NOTHING: 'NOTHING',
 };
 
 const MAX_SPIN_REWARDS = 12;
