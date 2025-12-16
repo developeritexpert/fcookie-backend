@@ -1,20 +1,19 @@
-let NodeCache;
-let filterCache;
+// filterCache.js
+const NodeCache = require('node-cache');
 
-try {
-  NodeCache = require('node-cache');
-  filterCache = new NodeCache({ stdTTL: 300 });
-} catch (e) {
-  filterCache = null;
-}
+const filterCache = new NodeCache({
+  stdTTL: 300,
+  checkperiod: 60,
+});
 
 const clearFilterCache = () => {
-  if (filterCache) filterCache.flushAll();
+  console.log('[CACHE] Flushing filter cache');
+  filterCache.flushAll();
 };
 
 const getFilterCache = () => filterCache;
 
 module.exports = {
   getFilterCache,
-  clearFilterCache
+  clearFilterCache,
 };

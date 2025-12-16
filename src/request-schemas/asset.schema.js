@@ -205,11 +205,28 @@ const listAssets = {
 
   }),
 };
-
+/* GET ASSET BY SLUG */
+const getAssetBySlug = {
+  [Segments.PARAMS]: Joi.object().keys({
+    slug: Joi.string()
+      .min(1)
+      .max(255)
+      .pattern(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+      .required()
+      .messages({
+        'string.empty': 'Slug is required',
+        'string.min': 'Slug must be at least 1 character long',
+        'string.max': 'Slug cannot exceed 255 characters',
+        'string.pattern.base': 'Slug must contain only lowercase letters, numbers, and hyphens',
+        'any.required': 'Slug is required',
+      }),
+  }),
+};
 module.exports = {
   createAsset,
   updateAsset,
   deleteAsset,
   getAsset,
   listAssets,
+  getAssetBySlug,
 };

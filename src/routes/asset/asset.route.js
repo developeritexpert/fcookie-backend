@@ -14,6 +14,7 @@ const API = {
   CREATE: '/',
   GET_ALL: '/',
   GET_BY_ID: '/:id',
+  GET_BY_SLUG: '/slug/:slug', 
   UPDATE_BY_ID: '/:id',
   DELETE_BY_ID: '/:id',
   GET_AVAILABLE_FILTERS: '/filters',
@@ -68,6 +69,18 @@ assetRouter.get(
   celebrate(AssetSchema.getAsset),
   assetController.getAssetById
 );
+
+/**
+ * @route GET /assets/slug/:slug
+ * @desc Get asset by slug
+ */
+assetRouter.get(
+  API.GET_BY_SLUG,
+  authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
+  celebrate(AssetSchema.getAssetBySlug),
+  assetController.getAssetBySlug
+);
+
 
 /**
  * @route PUT /assets/:id

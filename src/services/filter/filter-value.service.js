@@ -3,14 +3,18 @@ const FilterGroup = require('../../models/filter-group.model');
 const { ErrorHandler } = require('../../utils/error-handler');
 const { clearFilterCache } = require('../../utils/filter-cache');
 
+/**
+ * Reorder filter values sequentially within a group
+ */
 const reorderFilterValues = async (groupId) => {
   const values = await FilterValue.find({ groupId }).sort({ order: 1 });
+  let hasChanges = false;
 
   const bulkOps = [];
-  let hasChanges = false;
 
   for (let i = 0; i < values.length; i++) {
     if (values[i].order !== i) {
+      console.log(`Reordering filter value ${values[i]._id} from ${values[i].order} to ${i}`);
       hasChanges = true;
       bulkOps.push({
         updateOne: {
@@ -21,13 +25,61 @@ const reorderFilterValues = async (groupId) => {
     }
   }
 
-  if (hasChanges) {
+  if (hasChanges && bulkOps.length > 0) {
     await FilterValue.bulkWrite(bulkOps);
-    clearFilterCache(); // 🔥 CRITICAL
+    // ✅ Clear cache after reorder
+    console.log('Clearing filter cache after reorder');
+    clearFilterCache();
   }
+
+  return hasChanges;
 };
 
+/**
+ * Bulk reorder filter values
+ */
+const updateFilterValuesOrder = async (groupId, orderData) => {
+  try {
+    const groupExists = await FilterGroup.findById(groupId);
+    if (!groupExists) {
+      throw new ErrorHandler(404, 'filter_group.not_found');
+    }
 
+    const valueIds = orderData.map(item => item.id);
+    const existingValues = await FilterValue.find({
+      _id: { $in: valueIds },
+      groupId: groupId
+    });
+
+    if (existingValues.length !== valueIds.length) {
+      throw new ErrorHandler(400, 'filter_value.invalid_values_for_group');
+    }
+
+    const bulkOps = orderData.map(item => ({
+      updateOne: {
+        filter: { _id: item.id, groupId: groupId },
+        update: { $set: { order: item.order } }
+      }
+    }));
+
+    if (bulkOps.length > 0) {
+      await FilterValue.bulkWrite(bulkOps);
+      // ✅ Clear cache after reorder
+      clearFilterCache();
+    }
+
+    const updatedValues = await FilterValue.find({ groupId })
+      .populate('groupId', 'name slug type')
+      .sort({ order: 1 });
+
+    return updatedValues;
+  } catch (err) {
+    if (err instanceof ErrorHandler) {
+      throw err;
+    }
+    throw new ErrorHandler(500, err.message);
+  }
+};
 
 const createFilterValue = async (payload) => {
   try {
@@ -36,8 +88,19 @@ const createFilterValue = async (payload) => {
       throw new ErrorHandler(404, 'filter_group.not_found');
     }
 
+    // Auto-assign order if not provided
+    if (payload.order === undefined) {
+      const lastValue = await FilterValue.findOne({ groupId: payload.groupId })
+        .sort({ order: -1 });
+      payload.order = lastValue ? lastValue.order + 1 : 0;
+    }
+
+    const created = await FilterValue.create(payload);
+    
+    // ✅ Clear cache after create
     clearFilterCache();
-    return await FilterValue.create(payload);
+    
+    return created;
   } catch (err) {
     if (err.code === 11000) {
       throw new ErrorHandler(409, 'filter_value.duplicate_key');
@@ -62,7 +125,6 @@ const getAllFilterValues = async (page, limit, filters, sortBy = 'createdAt', or
       .sort(sort)
       .skip(skip)
       .limit(limit),
-
     FilterValue.countDocuments(filters),
   ]);
 
@@ -98,9 +160,13 @@ const updateFilterValue = async (id, payload) => {
     }).populate('groupId', 'name slug type');
 
     if (!updated) throw new ErrorHandler(404, 'filter_value.not_found');
-
-    clearFilterCache();
+    console.log(`cache clear for filter value update ${id}`);
+    // ✅ Clear cache after update
+      clearFilterCache();
+    console.log(`Cleared filter cache after updating filter value ${id}`);
+    console.log(`updated filter value ${updated} successfully`);   
     return updated;
+
   } catch (err) {
     if (err.code === 11000) {
       throw new ErrorHandler(409, 'filter_value.duplicate_key');
@@ -116,12 +182,11 @@ const deleteFilterValue = async (id) => {
   const deleted = await FilterValue.findByIdAndDelete(id);
   if (!deleted) throw new ErrorHandler(404, 'filter_value.not_found');
 
-  // 🔥 Reorder values inside this group only
+  // ✅ Reorder (which clears cache internally)
   await reorderFilterValues(deleted.groupId);
 
   return true;
 };
-
 
 module.exports = {
   createFilterValue,
@@ -129,4 +194,6 @@ module.exports = {
   getFilterValueById,
   updateFilterValue,
   deleteFilterValue,
+  updateFilterValuesOrder,
+  reorderFilterValues,
 };

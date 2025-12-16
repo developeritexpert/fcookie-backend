@@ -20,6 +20,17 @@ const getAssetById = wrapAsync(async (req, res) => {
   sendResponse(res, data, 'asset.fetch_success', 200);
 });
 
+const getAssetBySlug = wrapAsync(async (req, res) => {
+  const { slug } = req.params;
+  const result = await assetService.getAssetBySlug(slug);
+  
+  if (!result) {
+    return sendResponse(res, null, 'asset.not_found', 404);
+  }
+  
+  sendResponse(res, result, 'asset.fetch_success', 200);
+});
+
 const updateAsset = wrapAsync(async (req, res) => {
   const data = await assetService.updateAsset(req.params.id, req.body, req.files || {});
   sendResponse(res, data, 'asset.update_success', 200);
@@ -48,6 +59,7 @@ module.exports = {
   createAsset,
   getAllAssets,
   getAssetById,
+  getAssetBySlug,
   updateAsset,
   deleteAsset,
   getAvailableFilters

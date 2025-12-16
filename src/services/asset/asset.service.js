@@ -134,7 +134,8 @@ const getAllAssets = async (query) => {
   // Use lean() for better performance (returns plain JS objects)
   const [data, total] = await Promise.all([
     Asset.find(filters)
-      .select('name slug price listing_price images quantity thumbnail_url filters categoryId status visibility createdAt')
+      .select('name slug price listing_price images quantity thumbnail_url filters categoryId status visibility createdAt description attributes grading views_count likes_count offer_count')
+      .populate('categoryId', 'name slug')
       .sort(sort)
       .skip(skip)
       .limit(limit)
@@ -142,8 +143,34 @@ const getAllAssets = async (query) => {
     Asset.countDocuments(filters),
   ]);
 
+  // Populate filter names for each asset
+  const populatedData = await Promise.all(
+    data.map(async (asset) => {
+      if (asset.filters && asset.filters.length > 0) {
+        const populatedFilters = await Promise.all(
+          asset.filters.map(async (filter) => {
+            const [group, value] = await Promise.all([
+              FilterGroup.findById(filter.groupId).select('name slug').lean(),
+              FilterValue.findById(filter.valueId).select('label valueKey').lean(),
+            ]);
+
+            return {
+              ...filter,
+              groupName: group?.name || null,
+              groupSlug: group?.slug || null,
+              valueName: value?.label || null,
+              valueKey: value?.valueKey || null,
+            };
+          })
+        );
+        return { ...asset, filters: populatedFilters };
+      }
+      return asset;
+    })
+  );
+
   return {
-    data,
+    data: populatedData,
     pagination: {
       page,
       limit,
@@ -156,6 +183,50 @@ const getAllAssets = async (query) => {
 const getAssetById = async (id) => {
   const asset = await Asset.findById(id);
   if (!asset) throw new ErrorHandler(404, 'asset.not_found');
+  return asset;
+};
+const getAssetBySlug = async (slug) => {
+  const asset = await Asset.findOne({ slug })
+    .populate({
+      path: 'categoryId',
+      select: 'name slug description',
+    })
+    .populate({
+      path: 'owner_id',
+      select: 'username displayName email avatar',
+    })
+    .lean();
+
+  if (!asset) {
+    return null;
+  }
+
+  // Increment views count (fire and forget)
+  Asset.findByIdAndUpdate(asset._id, { $inc: { views_count: 1 } }).exec();
+
+  // Populate filter details
+  if (asset.filters && asset.filters.length > 0) {
+    const populatedFilters = await Promise.all(
+      asset.filters.map(async (filter) => {
+        const [group, value] = await Promise.all([
+          FilterGroup.findById(filter.groupId).select('name slug type').lean(),
+          FilterValue.findById(filter.valueId).select('label valueKey').lean(),
+        ]);
+
+        return {
+          ...filter,
+          groupName: group?.name || null,
+          groupSlug: group?.slug || null,
+          groupType: group?.type || null,
+          valueName: value?.label || null,
+          valueKey: value?.valueKey || null,
+        };
+      })
+    );
+
+    asset.filters = populatedFilters;
+  }
+
   return asset;
 };
 
@@ -251,12 +322,17 @@ const getAvailableFilters = async (categoryId = null) => {
   const pipeline = [
     { $match: matchStage },
     { $unwind: '$filters' },
+
     {
       $group: {
-        _id: { groupId: '$filters.groupId', valueId: '$filters.valueId' },
+        _id: {
+          groupId: '$filters.groupId',
+          valueId: '$filters.valueId'
+        },
         count: { $sum: 1 }
       }
     },
+
     {
       $lookup: {
         from: 'filtergroups',
@@ -266,18 +342,25 @@ const getAvailableFilters = async (categoryId = null) => {
       }
     },
     { $unwind: '$group' },
+
     {
       $lookup: {
         from: 'filtervalues',
-        let: { valueId: '$_id.valueId' },
-        pipeline: [
-          { $match: { $expr: { $eq: ['$_id', '$$valueId'] } } },
-          { $sort: { order: 1 } } // native sort
-        ],
+        localField: '_id.valueId',
+        foreignField: '_id',
         as: 'value'
       }
     },
     { $unwind: '$value' },
+
+    // ✅ CRITICAL SORT — NOW VALUE ORDER EXISTS
+    {
+      $sort: {
+        'group.order': 1,
+        'value.order': 1
+      }
+    },
+
     {
       $group: {
         _id: '$group._id',
@@ -285,6 +368,7 @@ const getAvailableFilters = async (categoryId = null) => {
         groupSlug: { $first: '$group.slug' },
         groupType: { $first: '$group.type' },
         groupOrder: { $first: '$group.order' },
+
         values: {
           $push: {
             valueId: '$value._id',
@@ -296,8 +380,11 @@ const getAvailableFilters = async (categoryId = null) => {
         }
       }
     },
+
+    // ✅ FINAL GROUP SORT
     { $sort: { groupOrder: 1 } }
   ];
+
 
   const filters = await Asset.aggregate(pipeline);
 
@@ -349,7 +436,7 @@ module.exports = {
   getAssetById,
   updateAsset,
   deleteAsset,
-  
+  getAssetBySlug,
   // New functions
   getAvailableFilters,
   getPriceRange,

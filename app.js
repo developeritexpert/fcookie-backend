@@ -43,6 +43,8 @@ app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+// AFTER this
+app.disable('etag');
 app.use(compression());
 
 app.use(expressLogger);
