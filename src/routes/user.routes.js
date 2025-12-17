@@ -46,5 +46,13 @@ userRouter.delete(
   authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
   UserController.remove
 );
+userRouter.post(
+  API.ADD_USER,
+  authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN]),
+  upload.single('avatar'),
+  uploadToCloudinary('avatar', 'users'),
+  celebrate(UserSchema.createUserByAdmin),
+  UserController.create
+);
 
 module.exports = userRouter;

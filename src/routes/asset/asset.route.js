@@ -6,6 +6,9 @@ const AssetSchema = require('../../request-schemas/asset.schema');
 
 const { celebrate } = require('celebrate');
 const checkAuth = require('../../middleware/check-auth');
+const optionalAuth = require('../../middleware/optionalAuth');
+
+
 const authorizedRoles = require('../../middleware/authorized-roles');
 const CONSTANT_ENUM = require('../../helper/constant-enums');
 const upload = require('../../middleware/multer');
@@ -21,15 +24,52 @@ const API = {
 };
 
 // 🔐 Authentication required for all asset routes
-assetRouter.use(checkAuth);
-
 
 
 assetRouter.get(
   API.GET_AVAILABLE_FILTERS,
-  authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
+  // authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
+  optionalAuth,
   assetController.getAvailableFilters
 );
+
+assetRouter.get(
+  API.GET_ALL,
+  // authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
+  optionalAuth,
+  celebrate(AssetSchema.listAssets),
+  assetController.getAllAssets
+);
+
+/**
+ * @route GET /assets/:id
+ * @desc Get asset by ID
+ */
+assetRouter.get(
+  API.GET_BY_ID,
+  // authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
+    optionalAuth,
+  celebrate(AssetSchema.getAsset),
+  assetController.getAssetById
+);
+
+/**
+ * @route GET /assets/slug/:slug
+ * @desc Get asset by slug
+ */
+assetRouter.get(
+  API.GET_BY_SLUG,
+  // authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
+  optionalAuth,
+  celebrate(AssetSchema.getAssetBySlug),
+  assetController.getAssetBySlug
+);
+
+
+assetRouter.use(checkAuth);
+
+
+
 
 
 /**
@@ -52,34 +92,7 @@ assetRouter.post(
  * @route GET /assets
  * @desc Get all assets with filters
  */
-assetRouter.get(
-  API.GET_ALL,
-  authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
-  celebrate(AssetSchema.listAssets),
-  assetController.getAllAssets
-);
 
-/**
- * @route GET /assets/:id
- * @desc Get asset by ID
- */
-assetRouter.get(
-  API.GET_BY_ID,
-  authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
-  celebrate(AssetSchema.getAsset),
-  assetController.getAssetById
-);
-
-/**
- * @route GET /assets/slug/:slug
- * @desc Get asset by slug
- */
-assetRouter.get(
-  API.GET_BY_SLUG,
-  authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
-  celebrate(AssetSchema.getAssetBySlug),
-  assetController.getAssetBySlug
-);
 
 
 /**

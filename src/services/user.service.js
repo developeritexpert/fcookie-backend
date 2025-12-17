@@ -1,6 +1,27 @@
 const { User } = require('../models/user.model');
 const { ErrorHandler } = require('../utils/error-handler');
 
+
+const createUser = async (data) => {
+  const existingUser = await User.findOne({ email: data.email });
+  if (existingUser) {
+    throw new ErrorHandler(400, 'user.email_exists');
+  }
+  
+  const user = new User({
+    name: data.name,
+    email: data.email,
+    password: data.password,
+    phoneNumber: data.phoneNumber || '',
+    avatar: data.avatar || '',
+    role: data.role || 'USER',
+    isEmailVerified: true, // Admin created users can be pre-verified
+    isActive: true,
+  });
+  
+  await user.save();
+  return user.toSafeObject();
+};
 const getUserByEmail = (email, includePassword = false) => {
   const proj = includePassword ? {} : { password: 0 };
   return User.findOne({ email }, proj).exec();
@@ -31,6 +52,15 @@ const updateUser = (id, data) => {
   return User.findByIdAndUpdate(id, updates, { new: true }).select('-password').exec();
 };
 
-const deleteUser = (id) => User.findByIdAndUpdate(id, { isDeleted: true }, { new: true }).exec();
+const deleteUser = (id) =>
+  User.findByIdAndUpdate(
+    id,
+    {
+      isDeleted: true,
+      isActive: false, // ✅ must be inside update object
+    },
+    { new: true }
+  ).exec();
 
-module.exports = { getUserByEmail, getUserByID, listUsers, updateUser, deleteUser };
+
+module.exports = { getUserByEmail, getUserByID, listUsers, updateUser, deleteUser,createUser };

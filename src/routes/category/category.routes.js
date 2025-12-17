@@ -5,6 +5,7 @@ const categoryController = require('../../controllers/category/category.controll
 const CategorySchema = require('../../request-schemas/category.schema');
 const { celebrate } = require('celebrate');
 const checkAuth = require('../../middleware/check-auth');
+const optionalAuth = require('../../middleware/optionalAuth');
 const authorizedRoles = require('../../middleware/authorized-roles');
 const CONSTANT_ENUM = require('../../helper/constant-enums');
 const upload = require('../../middleware/multer');
@@ -16,6 +17,14 @@ const API = {
   UPDATE_BY_ID: '/:id',
   DELETE_BY_ID: '/:id',
 };
+// Get all categories
+categoryRouter.get(
+  API.GET_ALL,
+  // authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
+  optionalAuth,
+  celebrate(CategorySchema.listCategories),
+  categoryController.getAllCategories
+);
 
 categoryRouter.use(checkAuth);
 
@@ -28,13 +37,6 @@ categoryRouter.post(
   categoryController.createCategory
 );
 
-// Get all categories
-categoryRouter.get(
-  API.GET_ALL,
-  authorizedRoles([CONSTANT_ENUM.USER_ROLE.ADMIN, CONSTANT_ENUM.USER_ROLE.USER]),
-  celebrate(CategorySchema.listCategories),
-  categoryController.getAllCategories
-);
 
 // Get category by ID
 categoryRouter.get(

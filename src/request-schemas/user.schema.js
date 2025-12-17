@@ -8,7 +8,7 @@ const objectIdValidator = Joi.string().hex().length(24).messages({
 });
 
 const createUserByAdmin = {
-  [Segments.BODY]: Joi.object().keys({
+  [Segments.BODY]: Joi.object({
     email: Joi.string().email().lowercase().trim().required().messages({
       'string.email': 'Email must be a valid email address',
       'any.required': 'Email is required',
@@ -24,21 +24,22 @@ const createUserByAdmin = {
       'any.required': 'Password is required',
     }),
 
-    confirmPassword: Joi.string().valid(Joi.ref('password')).messages({
-      'any.only': 'Confirm password does not match password',
-      'any.required': 'Confirm password is required',
-    }),
+    confirmPassword: Joi.string()
+      .required()
+      .valid(Joi.ref('password'))
+      .messages({
+        'any.only': 'Confirm password does not match password',
+        'any.required': 'Confirm password is required',
+      }),
 
-    phoneNumber: Joi.string().trim().optional().allow('').messages({
-      'string.base': 'Phone number must be a string',
-    }),
+    phoneNumber: Joi.string().trim().optional().allow(''),
 
     avatar: Joi.string().optional().allow(''),
 
     role: Joi.string()
       .valid(...Object.values(CONSTANT_ENUM.USER_ROLE))
       .default(CONSTANT_ENUM.USER_ROLE.USER),
-  }),
+  }).unknown(true), // 🔥 IMPORTANT for multipart/form-data
 };
 
 const getUserById = {
@@ -48,25 +49,32 @@ const getUserById = {
 };
 
 const updateUser = {
-  [Segments.BODY]: Joi.object().keys({
-    email: Joi.string().email().lowercase().trim().optional(),
+  [Segments.BODY]: Joi.object({
     name: Joi.string().min(2).max(50).trim().optional(),
+
+    email: Joi.string().email().lowercase().trim().optional(),
+
     phoneNumber: Joi.string().trim().optional().allow(''),
-    avatar: Joi.string().optional().allow(''),
 
     password: Joi.string().min(6).optional(),
-    confirmPassword: Joi.when('password', {
-      is: Joi.exist(),
-      then: Joi.string().valid(Joi.ref('password')).required().messages({
+
+    confirmPassword: Joi.string()
+      .optional()
+      .valid(Joi.ref('password'))
+      .messages({
         'any.only': 'Confirm password does not match password',
-        'any.required': 'Confirm password is required',
       }),
-      otherwise: Joi.forbidden(),
-    }),
 
+    avatar: Joi.string().optional().allow(''),
 
-  }).min(1),
+    role: Joi.string() // ✅ ADD THIS
+      .valid(...Object.values(CONSTANT_ENUM.USER_ROLE))
+      .optional(),
+
+    isActive: Joi.boolean().optional(),
+  }).unknown(true), // ✅ important for multipart
 };
+
 
 
 
