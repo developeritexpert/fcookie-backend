@@ -201,5 +201,44 @@
     "rewards_fetch_failed": "Failed to fetch rewards",
     "spin_attempt_recorded": "Spin attempt recorded successfully",
     "spin_attempt_record_failed": "Failed to record spin attempt"
+  },
+  
+  "question_form": {
+    "create_success": "Question form created successfully",
+    "fetch_success": "Question form(s) fetched successfully",
+    "update_success": "Question form updated successfully",
+    "delete_success": "Question form deleted successfully",
+    "not_found": "Question form not found",
+    "title_exists": "A question form with this title already exists",
+    "field_added": "Field added successfully",
+    "field_updated": "Field updated successfully",
+    "field_removed": "Field removed successfully",
+    "field_not_found": "Field not found",
+    "step_added": "Step added successfully",
+    "step_updated": "Step updated successfully",
+    "step_removed": "Step removed successfully",
+    "step_not_found": "Step not found",
+    "section_added": "Content section added successfully",
+    "section_updated": "Content section updated successfully",
+    "section_removed": "Content section removed successfully",
+    "section_not_found": "Content section not found",
+    "reorder_success": "Items reordered successfully",
+    "statistics_success": "Statistics fetched successfully"
+  },
+  "submission": {
+    "create_success": "Submission created successfully",
+    "fetch_success": "Submission(s) fetched successfully",
+    "update_success": "Submission updated successfully",
+    "delete_success": "Submission deleted successfully",
+    "not_found": "Submission not found",
+    "form_inactive": "This form is currently inactive",
+    "authentication_required": "Authentication required to submit this form",
+    "cannot_update": "This submission cannot be updated",
+    "step_saved": "Step progress saved successfully",
+    "review_success": "Submission reviewed successfully",
+    "invalid_status": "Invalid submission status",
+    "not_multistep_form": "This is not a multi-step form",
+    "statistics_success": "Submission statistics fetched successfully"
   }
+
 }

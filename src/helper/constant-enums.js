@@ -63,7 +63,66 @@ const FILTER_TYPE = {
   NUMBER: 'number',
   TEXT: 'text',
 };
+
+const CONSTANT_ENUM = {
+  STATUS: {
+    ACTIVE: 'ACTIVE',
+    INACTIVE: 'INACTIVE',
+  },
+  USER_ROLE: {
+    ADMIN: 'ADMIN',
+    USER: 'USER',
+  },
+  FIELD_TYPES: {
+    TEXT: 'text',
+    TEXTAREA: 'textarea',
+    NUMBER: 'number',
+    EMAIL: 'email',
+    PHONE: 'phone',
+    DATE: 'date',
+    TIME: 'time',
+    DATETIME: 'datetime',
+    CHECKBOX: 'checkbox',
+    RADIO: 'radio',
+    SELECT: 'select',
+    MULTISELECT: 'multiselect',
+    FILE: 'file',
+    IMAGE: 'image',
+    URL: 'url',
+    PASSWORD: 'password',
+    HIDDEN: 'hidden',
+    RATING: 'rating',
+    RANGE: 'range',
+    COLOR: 'color',
+  },
+  SUBMISSION_STATUS: {
+    DRAFT: 'draft',
+    SUBMITTED: 'submitted',
+    REVIEWED: 'reviewed',
+    APPROVED: 'approved',
+    REJECTED: 'rejected',
+    ARCHIVED: 'archived',
+  },
+  CONTENT_SECTION_TYPES: {
+    HEADING: 'heading',
+    PARAGRAPH: 'paragraph',
+    LIST: 'list',
+    NOTE: 'note',
+    WARNING: 'warning',
+    INFO: 'info',
+    IMAGE: 'image',
+    VIDEO: 'video',
+    DIVIDER: 'divider',
+  },
+  VISIBILITY: {
+    PUBLIC: 'public',
+    PRIVATE: 'private',
+    AUTHENTICATED: 'authenticated',
+  },
+};
+
 module.exports = {
+  CONSTANT_ENUM,
   USER_ROLE,
   STATUS,
   LANGUAGE,

@@ -197,6 +197,93 @@ const buildAssetFilters = (query = {}) => {
   return filters;
 };
 
+
+
+const buildQuestionFormFilters = (query) => {
+  const filters = {};
+
+  // Search by title or description
+  if (query.search) {
+    filters.$or = [
+      { title: { $regex: query.search, $options: 'i' } },
+      { description: { $regex: query.search, $options: 'i' } },
+    ];
+  }
+
+  // Filter by status
+  if (query.status) {
+    filters.status = query.status.toUpperCase();
+  }
+
+  // Filter by category
+  if (query.category) {
+    filters.category = query.category;
+  }
+
+  // Filter by visibility
+  if (query.visibility) {
+    filters.visibility = query.visibility;
+  }
+
+  // Filter by created by
+  if (query.createdBy) {
+    filters.createdBy = query.createdBy;
+  }
+
+  return filters;
+};
+
+/**
+ * Build filters for question submission queries
+ * @param {Object} query - Query parameters
+ * @returns {Object} MongoDB filter object
+ */
+const buildSubmissionFilters = (query) => {
+  const filters = {};
+
+  // Filter by question form
+  if (query.questionForm) {
+    filters.questionForm = query.questionForm;
+  }
+
+  // Filter by status
+  if (query.status) {
+    filters.status = query.status;
+  }
+
+  // Filter by submission type
+  if (query.submissionType) {
+    filters.submissionType = query.submissionType;
+  }
+
+  // Filter by submitted by user
+  if (query.submittedBy) {
+    filters.submittedBy = query.submittedBy;
+  }
+
+  // Filter by date range
+  if (query.startDate || query.endDate) {
+    filters.createdAt = {};
+    if (query.startDate) {
+      filters.createdAt.$gte = new Date(query.startDate);
+    }
+    if (query.endDate) {
+      filters.createdAt.$lte = new Date(query.endDate);
+    }
+  }
+
+  // Search by guest email or reference number
+  if (query.search) {
+    filters.$or = [
+      { 'guestInfo.email': { $regex: query.search, $options: 'i' } },
+      { 'guestInfo.name': { $regex: query.search, $options: 'i' } },
+    ];
+  }
+
+  return filters;
+};
+
+
 module.exports = {
   getPaginationParams,
   getFinalPagination,
@@ -206,4 +293,6 @@ module.exports = {
   buildFilterGroupFilters,
   buildFilterValueFilters,
   buildAssetFilters,
+  buildQuestionFormFilters,
+  buildSubmissionFilters
 };

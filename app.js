@@ -22,8 +22,12 @@ const FilterValueRouter = require('./src/routes/filter/filter-value.router');
 const assetRouter = require('./src/routes/asset/asset.route');
 const spinRouter = require('./src/routes/spin/spin.route');
 const userRouter = require('./src/routes/user.routes');
+const questionFormRouter = require('./src/routes/question-form/question-form.routes');
+const submissionRouter = require('./src/routes/question-submission/question-submission.routes');
+
 
 const app = express();
+
 
 // Connect to database
 connect();
@@ -44,8 +48,29 @@ app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // AFTER this
+// --------------------------------------------------
+// Parse JSON fields from multipart/form-data
+// --------------------------------------------------
+app.use((req, res, next) => {
+  if (!req.is('multipart/form-data')) return next();
+
+  const jsonFields = ['fields', 'steps', 'contentSections', 'formConfig'];
+
+  jsonFields.forEach((key) => {
+    if (typeof req.body?.[key] === 'string') {
+      try {
+        req.body[key] = JSON.parse(req.body[key]);
+      } catch (e) {}
+    }
+  });
+
+  next();
+});
+
 app.disable('etag');
 app.use(compression());
+
+
 
 app.use(expressLogger);
 
@@ -66,6 +91,9 @@ app.use(`/${config.server.route}/filter-values`, FilterValueRouter);
 app.use(`/${config.server.route}/asset`, assetRouter);
 app.use(`/${config.server.route}/spin`, spinRouter);
 app.use(`/${config.server.route}/user`, userRouter);
+
+app.use(`/${config.server.route}/question-forms`, questionFormRouter);
+app.use(`/${config.server.route}/submissions`, submissionRouter);
 
 // --------------------------------------------------
 // 404 Handler
