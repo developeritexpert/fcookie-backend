@@ -9,6 +9,7 @@ const optionalAuth = require('../../middleware/optionalAuth');
 const authorizedRoles = require('../../middleware/authorized-roles');
 const CONSTANT_ENUM = require('../../helper/constant-enums');
 const upload = require('../../middleware/multer');
+const parseMultipartJson = require('../../middleware/parseMultipartJson');
 
 const API = {
   // Main CRUD
@@ -39,6 +40,7 @@ submissionRouter.post(
   API.CREATE,
   optionalAuth,
   upload.array('attachments', 10),
+  parseMultipartJson,
   celebrate(SubmissionSchema.createSubmission, { abortEarly: false }),
   submissionController.createSubmission
 );
